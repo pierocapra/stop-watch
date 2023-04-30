@@ -33,21 +33,21 @@ function Stopwatch(props) {
 
   const formatTime = (time) => {
     const date = new Date(time);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-    const milliseconds = date.getUTCMilliseconds().toString().padStart(3, '0');
-    return `${minutes}:${seconds}.${milliseconds}`;
+    return `${hours}:${minutes}:${seconds}`;
   };
 
   return (
     <div className="stopwatch">
       <label>
-        Label:
+        Label: 
         <input type="text" value={label} onChange={handleLabelChange} />
       </label>
       <div className="display">{formatTime(elapsedTime)}</div>
       <button onClick={handleStart}>Start</button>
-      <button onClick={handleStop}>Stop</button>
+      <button onClick={handleStop}>Pause</button>
       <button onClick={handleReset}>Reset</button>
     </div>
   );
