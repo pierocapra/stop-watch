@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
 
-import classes from './AddStopWatch.css';
-
 function AddStopWatch(props) {
 
   // Pick random color for the border  
