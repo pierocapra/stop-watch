@@ -4,13 +4,13 @@ import classes from './AddStopWatch.css';
 
 function AddStopWatch(props) {
 
-  const colors = ["#205E78", "#203278", "#3A2078", "#662078","#78205E", "#782032", "#7CB9E8", "#00308F", "#72A0C1", "#89CFF0", "#0066b2", "#4B9CD3", "#318CE7", "#5072A7", "#6699CC", "#13274F", "#5F9EA0", "#2a52be", "#6495ED", "#0E3386", "#008E97", "#1877F2", "#15f4ee", "#0071c5", "#5A4FCF", "#545AA7", "#4D4DFF"]
+  // Pick random color for the border  
+  const colors = ["#205E78", "#203278", "#3A2078", "#662078","#78205E", "#782032", "#7CB9E8", "#00308F", "#72A0C1", "#89CFF0", "#0066b2", "#4B9CD3", "#318CE7", "#5072A7", "#6699CC", "#5F9EA0", "#2a52be", "#6495ED", "#0E3386", "#008E97", "#1877F2", "#15f4ee", "#0071c5", "#5A4FCF", "#545AA7", "#4D4DFF"]
 
   const [randomIndex, setRandomIndex] = useState(Math.floor(Math.random() * colors.length));
   let randomColor = colors[randomIndex];
 
   const nameRef = useRef('');
-//   const startPointRef = useRef('');
 
   function submitHandler(event) {
     event.preventDefault();
@@ -22,11 +22,11 @@ function AddStopWatch(props) {
 
     const stopwatch = {
       name: nameRef.current.value,
-      color: randomColor
+      color: randomColor,
+      time: 0
     };
 
     props.onAddStopWatch(stopwatch);
-    console.log(randomIndex);
   }
 
   return (
@@ -35,10 +35,6 @@ function AddStopWatch(props) {
         <label htmlFor='name'>Name</label>
         <input type='text' id='name' ref={nameRef} />
       </div>
-      {/* <div className={classes.control}>
-        <label htmlFor='startPoint'>Start Point</label>
-        <input type='text' id='startPoint' ref={startPointRef} />
-      </div> */}
       <button>Add Stopwatch</button>
     </form>
   );

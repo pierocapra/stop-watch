@@ -8,27 +8,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   
-
-  // const handleAddStopwatch = () => {
-  //   const newStopwatch = {
-  //     id: Date.now(),
-  //     name: `Stopwatch ${stopwatches.length + 1}`,
-  //     time: 0,
-  //   };
-  //   setStopwatches([...stopwatches, newStopwatch]);
-  // };
-
-  const addStopWatchHandler = async (stopwatch) =>{
-      const response = await fetch('https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch.json',{
-        method:'POST',
-        body: JSON.stringify(stopwatch),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      await response.json();
-  }
-
   const fetchStopWatchHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -40,17 +19,16 @@ function App() {
 
       const data = await response.json();
 
-      console.log(data);
       const loadedStopWatches = [];
 
       for (const key in data) {
         loadedStopWatches.push({
           id:key,
           name: data[key].name,
-          color: data[key].color
+          color: data[key].color,
+          time: data[key].time
         })
       }
-
       setStopwatches(loadedStopWatches);
     } catch (error) {
       setError(error.message);
@@ -62,60 +40,105 @@ function App() {
     fetchStopWatchHandler();
   }, [fetchStopWatchHandler]);
 
-  const handleRemoveStopwatch = (id) => {
-    const filteredStopwatches = stopwatches.filter((stopwatch) => stopwatch.id !== id);
-    setStopwatches(filteredStopwatches);
-  };
-
-  const handleResetStopwatch = (id) => {
-    const updatedStopwatches = stopwatches.map((stopwatch) => {
-      if (stopwatch.id === id) {
-        return { ...stopwatch, time: 0 };
+  const addStopWatchHandler = async (stopwatch) =>{
+    try {
+      const response = await fetch('https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch.json',{
+        method:'POST',
+        body: JSON.stringify(stopwatch),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
       }
-      return stopwatch;
-    });
-    setStopwatches(updatedStopwatches);
-  };
-
-  const handleUpdateStopwatch = (id, time) => {
-    const updatedStopwatches = stopwatches.map((stopwatch) => {
-      if (stopwatch.id === id) {
-        return { ...stopwatch, time };
-      }
-      return stopwatch;
-    });
-    setStopwatches(updatedStopwatches);
-  };
-
-  let content = <p>Found no stopwatches.</p>;
-
-  if (error) {
-    content = <p>{error}</p>;
+      
+      await response.json();
+    } catch (error) {
+      setError(error.message);
+    }
+    fetchStopWatchHandler()
   }
 
-  if (isLoading) {
-    content = <p>Loading...</p>;
+  const handleOnPause = async (id, newTime) => {
+    // Update data on pause
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+        method:'PATCH',
+        body: JSON.stringify({ time: newTime }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      await response.json();
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
+  const handleOnReset = async (id) => {
+    // Zero time on reset
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+        method:'PATCH',
+        body: JSON.stringify({ time: 0 }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      await response.json();
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
+  const handleOnDelete = async (id) => {
+    // Delete timer on reset
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+        method:'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      await response.json();
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
     <div className="app">
       <h1>Multiple Stopwatches</h1>
-      <section>{content}</section>
-      <div className="stopwatch-list">
-        {stopwatches.map((stopwatch) => (
-          <div className="stopwatch-container" key={stopwatch.id} style={{border: `2px solid ${stopwatch.color}`}}>
-            <Stopwatch
-              id={stopwatch.id}
-              name={stopwatch.name}
-              time={stopwatch.time}
-              color={stopwatch.color}
-              onReset={handleResetStopwatch}
-              onUpdate={handleUpdateStopwatch}
-              onRemove={handleRemoveStopwatch}
-            />
-          </div>
-        ))}
-      </div>
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && error && <p>Something got wrong</p>}
+      {!isLoading && stopwatches.length === 0 && <p>Create your first Stopwatch!</p>}
+      {!isLoading && stopwatches.length >= 1 &&
+        <div className="stopwatch-list">
+          {stopwatches.map((stopwatch) => (
+            <div className="stopwatch-container" key={stopwatch.id} style={{border: `2px solid ${stopwatch.color}`}}>
+              <Stopwatch
+                id={stopwatch.id}
+                name={stopwatch.name}
+                time={stopwatch.time}
+                color={stopwatch.color}
+                handleOnPause={handleOnPause}
+                handleOnReset={handleOnReset}
+                handleOnDelete={handleOnDelete}
+              />
+            </div>
+          ))}
+        </div>
+      }
       <AddStopWatch onAddStopWatch={addStopWatchHandler}/>
       {/* <button onClick={handleAddStopwatch}>Add Stopwatch</button> */}
     </div>

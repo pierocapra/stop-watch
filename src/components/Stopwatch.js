@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 function Stopwatch(props) {
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(props.time);
   const [isRunning, setIsRunning] = useState(false);
-
-  console.log(props);
-
+  
   useEffect(() => {
     let intervalId;
     if (isRunning) {
@@ -22,10 +20,16 @@ function Stopwatch(props) {
 
   const handlePause = () => {
     setIsRunning(false);
+    props.handleOnPause(props.id, elapsedTime)
   };
 
   const handleReset = () => {
     setElapsedTime(0);
+    props.handleOnReset(props.id)
+  };
+
+  const handleDelete = () => {
+    props.handleOnDelete(props.id)
   };
 
   const formatTime = (time) => {
@@ -43,9 +47,9 @@ function Stopwatch(props) {
       <button onClick={handleStart}>Start</button>
       <button onClick={handlePause}>Pause</button>
       <button onClick={handleReset}>Reset</button>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 }
 
 export default Stopwatch;
-

@@ -45,11 +45,8 @@ button:hover {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  /* border: 2px solid; */
-  /* border-color: #205e78; */
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  /* background-color: #fff; */
   transition: transform 0.3s;
   width: 100%;
   max-width: 400px;
