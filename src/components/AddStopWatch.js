@@ -10,7 +10,7 @@ function AddStopWatch(props) {
   let randomColor = colors[randomIndex];
 
   const nameRef = useRef('');
-  const startPointRef = useRef('');
+//   const startPointRef = useRef('');
 
   function submitHandler(event) {
     event.preventDefault();

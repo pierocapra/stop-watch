@@ -26,7 +26,7 @@ function App() {
           'Content-Type': 'application/json'
         }
       });
-      const data = await response.json();
+      await response.json();
   }
 
   const fetchStopWatchHandler = useCallback(async () => {
@@ -87,9 +87,20 @@ function App() {
     setStopwatches(updatedStopwatches);
   };
 
+  let content = <p>Found no stopwatches.</p>;
+
+  if (error) {
+    content = <p>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
+
   return (
     <div className="app">
       <h1>Multiple Stopwatches</h1>
+      <section>{content}</section>
       <div className="stopwatch-list">
         {stopwatches.map((stopwatch) => (
           <div className="stopwatch-container" key={stopwatch.id} style={{border: `2px solid ${stopwatch.color}`}}>
