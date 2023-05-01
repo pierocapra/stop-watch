@@ -26,17 +26,23 @@ function AddStopWatch(props) {
       time: 0
     };
 
+    // Run function from to props to submit the object
     props.onAddStopWatch(stopwatch);
+
+    // Reset the form input values
+    event.target.reset();
   }
 
   return (
-    <form onSubmit={submitHandler}>
-      <div className={classes.control}>
-        <label htmlFor='name'>Name</label>
-        <input type='text' id='name' ref={nameRef} />
-      </div>
-      <button>Add Stopwatch</button>
-    </form>
+    <div className="modal">
+        <form onSubmit={submitHandler}>
+        <div className="control">
+            <label htmlFor='name'>Name</label>
+            <input type='text' id='name' ref={nameRef} />
+        </div>
+        <button className="control-button">Add Stopwatch</button>
+        </form>
+    </div>
   );
 }
 

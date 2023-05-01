@@ -7,6 +7,7 @@ function App() {
   const [stopwatches, setStopwatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [addStopwatch, setAddStopwatch] = useState(false)
   
   const fetchStopWatchHandler = useCallback(async () => {
     setIsLoading(true);
@@ -29,6 +30,7 @@ function App() {
           time: data[key].time
         })
       }
+
       setStopwatches(loadedStopWatches);
     } catch (error) {
       setError(error.message);
@@ -57,7 +59,8 @@ function App() {
     } catch (error) {
       setError(error.message);
     }
-    fetchStopWatchHandler()
+    fetchStopWatchHandler();
+    setAddStopwatch(false)
   }
 
   const handleOnPause = async (id, newTime) => {
@@ -114,6 +117,11 @@ function App() {
     } catch (error) {
       setError(error.message);
     }
+    fetchStopWatchHandler();
+  }
+
+  const handleAddStopwatchModal = () => {
+    setAddStopwatch(true) 
   }
 
   return (
@@ -139,7 +147,8 @@ function App() {
           ))}
         </div>
       }
-      <AddStopWatch onAddStopWatch={addStopWatchHandler}/>
+      <button onClick={handleAddStopwatchModal}>Add StopWatch</button>
+      {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler}/>}
       {/* <button onClick={handleAddStopwatch}>Add Stopwatch</button> */}
     </div>
   );

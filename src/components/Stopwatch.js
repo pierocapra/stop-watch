@@ -43,11 +43,11 @@ function Stopwatch(props) {
   return (
     <div className="stopwatch">
       <h2>{props.name}</h2>
-      <div className="display">{formatTime(elapsedTime)}</div>
+      <div className="time">{formatTime(elapsedTime)}</div>
       <button onClick={handleStart}>Start</button>
       <button onClick={handlePause}>Pause</button>
       <button onClick={handleReset}>Reset</button>
-      <button onClick={handleDelete}>Delete</button>
+      <button className="remove-button" onClick={handleDelete}>Delete</button>
     </div>
   );
 }
