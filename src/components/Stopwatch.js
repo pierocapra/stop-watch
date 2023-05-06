@@ -44,10 +44,10 @@ function Stopwatch(props) {
     <div className="stopwatch">
       <h2>{props.name}</h2>
       <div className="time">{formatTime(elapsedTime)}</div>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={handlePause}>Pause</button>
-      <button onClick={handleReset}>Reset</button>
-      <button className="remove-button" onClick={handleDelete}>Delete</button>
+      <button className="button" onClick={handleStart}>Start</button>
+      <button className="button" onClick={handlePause}>Pause</button>
+      <button className="button" onClick={handleReset}>Reset</button>
+      <button className="button remove-button" onClick={handleDelete}>Delete</button>
     </div>
   );
 }

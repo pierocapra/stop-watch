@@ -121,7 +121,11 @@ function App() {
   }
 
   const handleAddStopwatchModal = () => {
-    setAddStopwatch(true) 
+    setAddStopwatch(true);
+  }
+
+  const closeModal = () => {
+    setAddStopwatch(false);
   }
 
   return (
@@ -147,9 +151,8 @@ function App() {
           ))}
         </div>
       }
-      <button onClick={handleAddStopwatchModal}>Add StopWatch</button>
-      {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler}/>}
-      {/* <button onClick={handleAddStopwatch}>Add Stopwatch</button> */}
+      <button className="button" onClick={handleAddStopwatchModal}>Add StopWatch</button>
+      {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}
     </div>
   );
 }

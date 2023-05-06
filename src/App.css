@@ -1,4 +1,16 @@
 /* App styles */
+html {
+  font-size: 16px;
+  font-family: sans-serif;
+  color: #333;
+  background-color: #fff;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: left;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -15,20 +27,24 @@ h1 {
 }
 
 button {
+  cursor: pointer;
+  border: none;
+}
+
+
+.button {
+  transition: background-color 0.3s;
+  height: fit-content;
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
   background-color: #204678;
   color: #fff;
-  border: none;
   border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  height: fit-content;
 }
 
-button:hover {
+.button:hover {
   background-color: #2a5c9c;
 }
 
@@ -65,7 +81,7 @@ button:hover {
   font-size: 20px;
 }
 
-.stopwatch-container button {
+.stopwatch-container .button {
   padding: 8px 16px;
   font-size: 14px;
   font-weight: bold;
@@ -76,19 +92,19 @@ button:hover {
   transition: background-color 0.3s;
 }
 
-.stopwatch-container button:not(.remove-button) {
+.stopwatch-container .button:not(.remove-button) {
   background-color: #205e78;
 }
 
-.stopwatch-container button:not(:last-of-type){
+.stopwatch-container .button:not(:last-of-type){
   margin-right: 1rem;
 }
 
-.stopwatch-container button:hover {
+.stopwatch-container .button:hover {
   background-color: #277495;
 }
 
-.stopwatch-container button:disabled {
+.stopwatch-container .button:disabled {
   background-color: #ccc;
   cursor: default;
 }
@@ -112,22 +128,55 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #00000065;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.modal form {
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2046786e;
+}
+
+.modal .add-stopwatch {
+  position: relative;
   padding: 2rem;
-  /* display: flex;
-  gap: 2rem;
-  justify-content: space-between;
-  align-items: end; */
-  border: 2px solid #205E78;
+  border: 2px solid rgb(32, 94, 121);
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   background-color: #fff;
+  z-index: 1;
+}
+
+.modal .add-stopwatch__close {
+  background-color: transparent;
+  color: rgb(54, 54, 54);
+  position: absolute;
+  top: 9px;
+  right: 5px;
+}
+
+.modal .add-stopwatch__close::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  filter: blur(8px);
+  z-index: -1;
+  background-color: transparent;
+  transition: background-color 0.3s;
+}
+
+.modal .add-stopwatch__close:hover::before {
+  background-color: rgba(32, 94, 121, 0.26);
+  transition: background-color 0.3s;
 }
 
 .control label {

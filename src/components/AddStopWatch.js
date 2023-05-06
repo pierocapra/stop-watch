@@ -33,13 +33,17 @@ function AddStopWatch(props) {
 
   return (
     <div className="modal">
-        <form onSubmit={submitHandler}>
-        <div className="control">
-            <label htmlFor='name'>Name</label>
-            <input type='text' id='name' ref={nameRef} />
+        <div className="modal-overlay" onClick={props.closeModal}></div>
+        <div className="add-stopwatch">
+          <button className="add-stopwatch__close" onClick={props.closeModal}>X</button>
+          <form onSubmit={submitHandler}>
+            <div className="control">
+                <label htmlFor='name'>Name</label>
+                <input type='text' id='name' ref={nameRef} />
+            </div>
+            <button className="button control-button">Add Stopwatch</button>
+          </form>
         </div>
-        <button className="control-button">Add Stopwatch</button>
-        </form>
     </div>
   );
 }
