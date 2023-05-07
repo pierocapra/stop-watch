@@ -57,14 +57,12 @@ const Stopwatch = (props) => {
     const hours = date.getUTCHours().toString().padStart(2, '0');
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+    const milliseconds = date.getUTCMilliseconds().toString().padStart(2, '0').slice(-2);
+    return `${hours}:${minutes}:${seconds}:${milliseconds}`;
   };
 
   return (
-    <div
-      className="stopwatch"
-      // style={{ borderColor: props.color }}
-    >
+    <div className="stopwatch">
       <h2>{props.name}</h2>
       <div className="stopwatch-time">{formatTime(elapsedTime)}</div>
       <div className="stopwatch-controls">
@@ -77,10 +75,13 @@ const Stopwatch = (props) => {
   );
 };
 
-// Stopwatch.propTypes = {
-//   id: PropTypes.number.isRequired,
-//   name: PropTypes.func.isRequired,
-//   color: PropTypes.string.isRequired,
-// };
+Stopwatch.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  handleOnPause: PropTypes.func.isRequired,
+  handleOnReset: PropTypes.func.isRequired,
+  handleOnDelete: PropTypes.func.isRequired,
+};
 
 export default Stopwatch;
