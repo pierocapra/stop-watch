@@ -122,7 +122,7 @@ function App() {
   }
 
   const handleNewName = async (id, newName) => {
-    // Zero time on reset
+    // Change Name
     try {
       const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
         method:'PATCH',

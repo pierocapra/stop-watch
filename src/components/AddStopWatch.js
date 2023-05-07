@@ -20,13 +20,14 @@ function AddStopWatch(props) {
   function submitHandler(event) {
     event.preventDefault();
     
+    // Randomize border color
     setRandomIndex(Math.floor(Math.random() * colors.length))
     randomColor = colors[randomIndex];
 
     // could add validation here...
 
     const stopwatch = {
-      name: nameRef.current.value,
+      name: nameRef.current.value.toUpperCase(),
       color: randomColor,
       time: 0,
       date: date()

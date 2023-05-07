@@ -54,15 +54,6 @@ const Stopwatch = (props) => {
     props.handleOnDelete(props.id)
   };
 
-  const formatTime = (time) => {
-    const date = new Date(time);
-    const hours = date.getUTCHours().toString().padStart(2, '0');
-    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-    const milliseconds = date.getUTCMilliseconds().toString().padStart(2, '0').slice(-2);
-    return `${hours}:${minutes}:${seconds}:${milliseconds}`;
-  };
-
   const handleEditTime = () => {
   }
   
@@ -76,6 +67,15 @@ const Stopwatch = (props) => {
 
     props.handleNewName(props.id, nameRef.current.value);
   }
+
+  const formatTime = (time) => {
+    const date = new Date(time);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    // const milliseconds = date.getUTCMilliseconds().toString().padStart(2, '0').slice(-2);
+    return `${hours}:${minutes}:${seconds}`;
+  };
 
   return (
     <div className="stopwatch">
