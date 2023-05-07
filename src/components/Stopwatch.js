@@ -7,6 +7,9 @@ const Stopwatch = (props) => {
   const [isRunning, setIsRunning] = useState(false);
   const [editName, setEditName] = useState(false);
   const nameRef = useRef('');
+  const [editTime, setEditTime] = useState(false);
+  const timeRef = useRef('');
+  const timeSubmitRef = useRef('');
 
   useEffect(() => {
     const storedStartTime = localStorage.getItem(`stopwatch-${props.id}-startTime`);
@@ -54,18 +57,26 @@ const Stopwatch = (props) => {
     props.handleOnDelete(props.id)
   };
 
-  const handleEditTime = () => {
-  }
   
   const handleEditName = () => {
     setEditName(true);
   }
-
+  
   const submitNewName = (event) => {
     event.preventDefault();
     setEditName(false);
-
+    
     props.handleNewName(props.id, nameRef.current.value.toUpperCase());
+  }
+  const handleEditTime = () => {
+    setEditTime(true);
+  }
+
+  const submitNewTime = (event) => {
+    event.preventDefault();
+    setEditTime(false);
+
+    props.handleNewTime(props.id, timeRef.current.value);
   }
   
   useEffect(()=>{
@@ -73,12 +84,17 @@ const Stopwatch = (props) => {
       if (nameRef.current && !nameRef.current.contains(event.target)) {
         setEditName(false);
       }
+      if (timeRef.current && !timeRef.current.contains(event.target)) {
+        if (timeSubmitRef.current && !timeSubmitRef.current.contains(event.target)){
+          setEditTime(false);
+        }
+      }
     }
-    if (editName ){
-      // Add event listener to document object
+    if (editName || editTime){
+      // Add event listener on mousedown to document object
       document.addEventListener('mousedown', handleClickOutside);
     }
-  }, [editName])
+  }, [editName, editTime])
   
 
   const formatTime = (time) => {
@@ -86,7 +102,6 @@ const Stopwatch = (props) => {
     const hours = date.getUTCHours().toString().padStart(2, '0');
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-    // const milliseconds = date.getUTCMilliseconds().toString().padStart(2, '0').slice(-2);
     return `${hours}:${minutes}:${seconds}`;
   };
 
@@ -101,7 +116,16 @@ const Stopwatch = (props) => {
         </h2>
         <p>{props.date}</p>
       </div>
-      <div className="stopwatch-time" onClick={handleEditTime}>{formatTime(elapsedTime)}</div>
+      <div className="stopwatch-time" onClick={handleEditTime}>
+        {!editTime && <span className="stopwatch-time-displayed">{formatTime(elapsedTime)}</span>}
+        {editTime && (
+            <form className="stopwatch-edit-time" onSubmit={submitNewTime}>
+              <input  type="number" step="5" ref={timeRef} id="edit-time"/>
+              <label htmlFor="edit-time">minutes</label>
+              <button className="button"  ref={timeSubmitRef}>go</button>
+            </form>
+            )}
+        </div>
       <div className="stopwatch-controls">
         <div className="buttons-left">
           {!isRunning && <button className="button" onClick={handleStart}>Start</button>}

@@ -94,7 +94,32 @@ button {
 .stopwatch-container .stopwatch-time {
   margin: 0;
   font-size: 16px;
+  cursor: pointer;
 }
+
+.stopwatch-container .stopwatch-time-displayed:hover{
+  color: red;
+  transition: color 0.1s;
+}
+
+.stopwatch-edit-time input {
+  width: 50px;
+  margin-right: 0.5rem;
+}
+.stopwatch-edit-time label {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.stopwatch-edit-time button {
+  font-size: 8px !important;
+  margin-left: 0.5rem;
+  margin-top: 0 !important;
+  text-transform: uppercase;
+  min-width: 20px !important;
+  border-radius: 30px !important;
+  vertical-align: middle; 
+}
+
 .stopwatch-controls {
   display: flex;
   justify-content: space-between;
@@ -140,13 +165,13 @@ button {
 /* Define the keyframes */
 @keyframes pulsate {
   0% {
-    background-color: #f59c01;
+    background-color: #e89300;
   }
   50% {
     background-color: #e7af15;
   }
   100% {
-    background-color: #f59c01;
+    background-color: #e89300;
   }
 }
 

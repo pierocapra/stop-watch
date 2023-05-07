@@ -56,7 +56,6 @@ function App() {
         throw new Error('Something went wrong!');
       }
       
-      await response.json();
     } catch (error) {
       setError(error.message);
     }
@@ -78,7 +77,7 @@ function App() {
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
-      await response.json();
+
     } catch (error) {
       setError(error.message);
     }
@@ -98,7 +97,7 @@ function App() {
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
-      await response.json();
+
     } catch (error) {
       setError(error.message);
     }
@@ -114,7 +113,7 @@ function App() {
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
-      await response.json();
+
     } catch (error) {
       setError(error.message);
     }
@@ -135,7 +134,35 @@ function App() {
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
-      await response.json();
+
+    } catch (error) {
+      setError(error.message);
+    }
+    fetchStopWatchHandler();
+  }
+
+  const handleNewTime = async (id, amountToAdd) => {
+    // Add or subtract minutes from current in steps of 5
+    const amountInMs = amountToAdd * 60000;
+
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`)
+      
+      const data = await response.json();
+      const existingTime = data.time;
+      const updatedTime = existingTime + amountInMs;
+      
+      await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+        method:'PATCH',
+        body: JSON.stringify({ time: updatedTime }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -171,6 +198,7 @@ function App() {
                 handleOnReset={handleOnReset}
                 handleOnDelete={handleOnDelete}
                 handleNewName={handleNewName}
+                handleNewTime={handleNewTime}
               />
             </div>
           ))}
