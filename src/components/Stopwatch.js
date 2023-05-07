@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const Stopwatch = (props) => {
   const [startTime, setStartTime] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(props.time);
   const [isRunning, setIsRunning] = useState(false);
+  const [editName, setEditName] = useState(false);
+  const nameRef = useRef('');
 
   useEffect(() => {
     const storedStartTime = localStorage.getItem(`stopwatch-${props.id}-startTime`);
@@ -61,13 +63,32 @@ const Stopwatch = (props) => {
     return `${hours}:${minutes}:${seconds}:${milliseconds}`;
   };
 
+  const handleEditTime = () => {
+  }
+  
+  const handleEditName = () => {
+    setEditName(true);
+  }
+
+  const submitNewName = (event) => {
+    event.preventDefault();
+    setEditName(false);
+
+    props.handleNewName(props.id, nameRef.current.value);
+  }
+
   return (
     <div className="stopwatch">
       <div className="stopwatch-info">
-        <h2>{props.name}</h2>
+        <h2 onClick={handleEditName}>
+          {!editName && props.name}
+          {editName && <form onSubmit={submitNewName}>
+              <input className="stopwatch-edit-name" type="text" placeholder={props.name} ref={nameRef}/>
+            </form>}
+        </h2>
         <p>{props.date}</p>
       </div>
-      <div className="stopwatch-time">{formatTime(elapsedTime)}</div>
+      <div className="stopwatch-time" onClick={handleEditTime}>{formatTime(elapsedTime)}</div>
       <div className="stopwatch-controls">
         <div className="buttons-left">
           {!isRunning && <button className="button" onClick={handleStart}>Start</button>}
@@ -89,6 +110,7 @@ Stopwatch.propTypes = {
   handleOnPause: PropTypes.func.isRequired,
   handleOnReset: PropTypes.func.isRequired,
   handleOnDelete: PropTypes.func.isRequired,
+  handleNewName: PropTypes.func
 };
 
 export default Stopwatch;

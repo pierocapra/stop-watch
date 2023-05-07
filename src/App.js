@@ -121,6 +121,28 @@ function App() {
     fetchStopWatchHandler();
   }
 
+  const handleNewName = async (id, newName) => {
+    // Zero time on reset
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+        method:'PATCH',
+        body: JSON.stringify({ name: newName }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      await response.json();
+    } catch (error) {
+      setError(error.message);
+    }
+    fetchStopWatchHandler();
+  }
+
+
   const handleAddStopwatchModal = () => {
     setAddStopwatch(true);
   }
@@ -131,7 +153,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Multiple Stopwatches</h1>
+      <h1>Multiple Stopwatch</h1>
       {isLoading && <p>Loading...</p>}
       {!isLoading && error && <p>Something got wrong</p>}
       {!isLoading && stopwatches.length === 0 && <p>Create your first Stopwatch!</p>}
@@ -148,6 +170,7 @@ function App() {
                 handleOnPause={handleOnPause}
                 handleOnReset={handleOnReset}
                 handleOnDelete={handleOnDelete}
+                handleNewName={handleNewName}
               />
             </div>
           ))}

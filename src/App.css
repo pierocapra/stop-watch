@@ -15,7 +15,6 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* font-family: Arial, sans-serif; */
   font-family: 'Poppins', sans-serif;
   padding: 0 2rem;
 }
@@ -73,6 +72,13 @@ button {
   font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.stopwatch-container h2:hover {
+  color: #555 !important;
+  text-decoration: underline;
+  border-radius: 4px;
 }
 
 .stopwatch-container .stopwatch-info {
@@ -92,6 +98,7 @@ button {
 .stopwatch-controls {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .stopwatch-container .button {
@@ -104,10 +111,11 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  background-color: #205e78;
+  min-width: 60px;
 }
 
-.stopwatch-container .button {
-  background-color: #205e78;
+.stopwatch-container .button:not(:last-child) {
   margin-right: 1rem;
 }
 
@@ -116,11 +124,7 @@ button {
 }
 
 .stopwatch-container .pause-button {
-  background-color: #f59c01;
-}
-
-.stopwatch-container .pause-button:hover {
-  background-color: #e89300;
+  animation: pulsate 2s ease-in-out infinite;
 }
 
 .stopwatch-container .remove-button {
@@ -130,6 +134,20 @@ button {
 
 .stopwatch-container .remove-button:hover {
   background-color: #eb4033;
+  transition: background-color 0.3s;
+}
+
+/* Define the keyframes */
+@keyframes pulsate {
+  0% {
+    background-color: #f59c01;
+  }
+  50% {
+    background-color: #e7af15;
+  }
+  100% {
+    background-color: #f59c01;
+  }
 }
 
 .stopwatch-container .remove-button:focus {
