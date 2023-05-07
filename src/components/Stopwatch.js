@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const Stopwatch = (props) => {
-  const [startTime, setStartTime] = useState(props.time);
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime, setStartTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(props.time);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     const storedStartTime = localStorage.getItem(`stopwatch-${props.id}-startTime`);
-    const storedElapsedTime = localStorage.getItem(`stopwatch-${props.id}-elapsedTime`);
+    const storedElapsedTime = props.time
     if (storedStartTime !== null) {
       setStartTime(parseInt(storedStartTime));
     }
     if (storedElapsedTime !== null) {
       setElapsedTime(parseInt(storedElapsedTime));
     }
-  }, [props.id]);
+  }, [props.id, props.time]);
 
   useEffect(() => {
     if (isRunning) {
@@ -36,7 +36,6 @@ const Stopwatch = (props) => {
   const handlePause = () => {
     if (isRunning) {
       localStorage.setItem(`stopwatch-${props.id}-startTime`, startTime);
-      localStorage.setItem(`stopwatch-${props.id}-elapsedTime`, elapsedTime);
       setIsRunning(false);
       props.handleOnPause(props.id, elapsedTime)
     }
@@ -46,7 +45,6 @@ const Stopwatch = (props) => {
     setElapsedTime(0);
     setIsRunning(false);
     localStorage.removeItem(`stopwatch-${props.id}-startTime`);
-    localStorage.removeItem(`stopwatch-${props.id}-elapsedTime`);
     props.handleOnReset(props.id)
   };
 
