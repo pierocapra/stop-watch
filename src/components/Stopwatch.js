@@ -1,31 +1,51 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-function Stopwatch(props) {
-  const [elapsedTime, setElapsedTime] = useState(props.time);
+const Stopwatch = (props) => {
+  const [startTime, setStartTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  
+
   useEffect(() => {
-    let intervalId;
-    if (isRunning) {
-      intervalId = setInterval(() => {
-        setElapsedTime((prevElapsedTime) => prevElapsedTime + 10);
-      }, 10);
+    const storedStartTime = localStorage.getItem(`stopwatch-${props.id}-startTime`);
+    const storedElapsedTime = localStorage.getItem(`stopwatch-${props.id}-elapsedTime`);
+    if (storedStartTime !== null) {
+      setStartTime(parseInt(storedStartTime));
     }
-    return () => clearInterval(intervalId);
-  }, [isRunning]);
+    if (storedElapsedTime !== null) {
+      setElapsedTime(parseInt(storedElapsedTime));
+    }
+  }, [props.id]);
+
+  useEffect(() => {
+    if (isRunning) {
+      const intervalId = setInterval(() => {
+        setElapsedTime(Date.now() - startTime);
+      }, 10);
+      return () => clearInterval(intervalId);
+    }
+  }, [isRunning, startTime]);
 
   const handleStart = () => {
-    setIsRunning(true);
+    if (!isRunning) {
+      setStartTime(Date.now() - elapsedTime);
+      setIsRunning(true);
+    }
   };
 
   const handlePause = () => {
-    setIsRunning(false);
-    props.handleOnPause(props.id, elapsedTime)
+    if (isRunning) {
+      localStorage.setItem(`stopwatch-${props.id}-startTime`, startTime);
+      localStorage.setItem(`stopwatch-${props.id}-elapsedTime`, elapsedTime);
+      setIsRunning(false);
+    }
   };
 
   const handleReset = () => {
     setElapsedTime(0);
-    props.handleOnReset(props.id)
+    setIsRunning(false);
+    localStorage.removeItem(`stopwatch-${props.id}-startTime`);
+    localStorage.removeItem(`stopwatch-${props.id}-elapsedTime`);
   };
 
   const handleDelete = () => {
@@ -41,15 +61,26 @@ function Stopwatch(props) {
   };
 
   return (
-    <div className="stopwatch">
+    <div
+      className="stopwatch"
+      // style={{ borderColor: props.color }}
+    >
       <h2>{props.name}</h2>
-      <div className="time">{formatTime(elapsedTime)}</div>
-      <button className="button" onClick={handleStart}>Start</button>
-      <button className="button" onClick={handlePause}>Pause</button>
-      <button className="button" onClick={handleReset}>Reset</button>
-      <button className="button remove-button" onClick={handleDelete}>Delete</button>
+      <div className="stopwatch-time">{formatTime(elapsedTime)}</div>
+      <div className="stopwatch-controls">
+        {!isRunning && <button className="button" onClick={handleStart}>Start</button>}
+        {isRunning && <button className="button" onClick={handlePause}>Pause</button>}
+        <button className="button" onClick={handleReset}>Reset</button>
+        <button className="button remove-button" onClick={handleDelete}>Delete</button>
+      </div>
     </div>
   );
-}
+};
+
+// Stopwatch.propTypes = {
+//   id: PropTypes.number.isRequired,
+//   name: PropTypes.func.isRequired,
+//   color: PropTypes.string.isRequired,
+// };
 
 export default Stopwatch;
