@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const Stopwatch = (props) => {
-  const [startTime, setStartTime] = useState(null);
+  const [startTime, setStartTime] = useState(props.time);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -38,6 +38,7 @@ const Stopwatch = (props) => {
       localStorage.setItem(`stopwatch-${props.id}-startTime`, startTime);
       localStorage.setItem(`stopwatch-${props.id}-elapsedTime`, elapsedTime);
       setIsRunning(false);
+      props.handleOnPause(props.id, elapsedTime)
     }
   };
 
@@ -46,6 +47,7 @@ const Stopwatch = (props) => {
     setIsRunning(false);
     localStorage.removeItem(`stopwatch-${props.id}-startTime`);
     localStorage.removeItem(`stopwatch-${props.id}-elapsedTime`);
+    props.handleOnReset(props.id)
   };
 
   const handleDelete = () => {
@@ -79,6 +81,7 @@ Stopwatch.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
   handleOnPause: PropTypes.func.isRequired,
   handleOnReset: PropTypes.func.isRequired,
   handleOnDelete: PropTypes.func.isRequired,
