@@ -65,7 +65,7 @@ const Stopwatch = (props) => {
     event.preventDefault();
     setEditName(false);
 
-    props.handleNewName(props.id, nameRef.current.value);
+    props.handleNewName(props.id, nameRef.current.value.toUpperCase());
   }
 
   const formatTime = (time) => {
