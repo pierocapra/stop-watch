@@ -67,6 +67,19 @@ const Stopwatch = (props) => {
 
     props.handleNewName(props.id, nameRef.current.value.toUpperCase());
   }
+  
+  useEffect(()=>{
+    function handleClickOutside(event) {
+      if (nameRef.current && !nameRef.current.contains(event.target)) {
+        setEditName(false);
+      }
+    }
+    if (editName ){
+      // Add event listener to document object
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+  }, [editName])
+  
 
   const formatTime = (time) => {
     const date = new Date(time);
