@@ -63,12 +63,17 @@ const Stopwatch = (props) => {
 
   return (
     <div className="stopwatch">
-      <h2>{props.name}</h2>
+      <div className="stopwatch-info">
+        <h2>{props.name}</h2>
+        <p>{props.date}</p>
+      </div>
       <div className="stopwatch-time">{formatTime(elapsedTime)}</div>
       <div className="stopwatch-controls">
-        {!isRunning && <button className="button" onClick={handleStart}>Start</button>}
-        {isRunning && <button className="button" onClick={handlePause}>Pause</button>}
-        <button className="button" onClick={handleReset}>Reset</button>
+        <div className="buttons-left">
+          {!isRunning && <button className="button" onClick={handleStart}>Start</button>}
+          {isRunning && <button className="button pause-button" onClick={handlePause}>Pause</button>}
+          <button className="button" onClick={handleReset}>Reset</button>
+        </div>
         <button className="button remove-button" onClick={handleDelete}>Delete</button>
       </div>
     </div>
@@ -80,6 +85,7 @@ Stopwatch.propTypes = {
   name: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
+  date: PropTypes.string,
   handleOnPause: PropTypes.func.isRequired,
   handleOnReset: PropTypes.func.isRequired,
   handleOnDelete: PropTypes.func.isRequired,

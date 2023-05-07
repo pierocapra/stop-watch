@@ -10,6 +10,13 @@ function AddStopWatch(props) {
 
   const nameRef = useRef('');
 
+  const date = () => {
+    const currentDate = new Date();
+    const options = {year: "2-digit", month: 'numeric', day: 'numeric' };
+    const formattedDate = currentDate.toLocaleDateString('en-UK', options);
+    return formattedDate;
+  }
+
   function submitHandler(event) {
     event.preventDefault();
     
@@ -21,7 +28,8 @@ function AddStopWatch(props) {
     const stopwatch = {
       name: nameRef.current.value,
       color: randomColor,
-      time: 0
+      time: 0,
+      date: date()
     };
 
     // Run function from to props to submit the object

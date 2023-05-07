@@ -27,7 +27,8 @@ function App() {
           id:key,
           name: data[key].name,
           color: data[key].color,
-          time: data[key].time
+          time: data[key].time,
+          date: data[key].date
         })
       }
 
@@ -141,6 +142,7 @@ function App() {
               <Stopwatch
                 id={stopwatch.id}
                 name={stopwatch.name}
+                date={stopwatch.date}
                 time={stopwatch.time}
                 color={stopwatch.color}
                 handleOnPause={handleOnPause}
