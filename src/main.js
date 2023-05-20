@@ -1,4 +1,7 @@
 import React, { useState , useEffect, useCallback} from 'react';
+import app from './firebase';
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 import Stopwatch from './components/Stopwatch';
 import AddStopWatch from './components/AddStopWatch';
 
@@ -9,6 +12,16 @@ function Main() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [addStopwatch, setAddStopwatch] = useState(false)
+  const navigate = useNavigate();
+
+  const logout = () => {
+    const auth = getAuth(app);
+    signOut(auth);
+
+    localStorage.removeItem("isAuthenticated")
+    navigate("/login");
+    console.log("You are now logged out ");
+  }
   
   const fetchStopWatchHandler = useCallback(async () => {
     setIsLoading(true);
@@ -207,6 +220,7 @@ function Main() {
       }
       <button className="button" onClick={handleAddStopwatchModal}>Add StopWatch</button>
       {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}
+      <button className="button" onClick={logout}>SignOut</button>
     </>
   );
 }
