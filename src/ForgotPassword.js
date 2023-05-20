@@ -3,26 +3,27 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useAuth } from './Auth';
 
-function Login() {
+export default function ForgotPassword() {
     const emailRef = useRef()
-    const passwordRef = useRef()
-    const { login } = useAuth()
+    const { resetPassword } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate();
-
     const [message, setMessage] = useState('')
+
 
     async function handleSubmit(e) {
         e.preventDefault()
-    
+
+        
         try {
+            console.log("test");
+          setMessage('')
           setError("")
           setLoading(true)
-          await login(emailRef.current.value, passwordRef.current.value)
-          navigate("/")
+          setMessage("Check your inbox for instructions")
+          await resetPassword(emailRef.current.value)
         } catch {
-          setError("Failed to log in")
+          setError("Failed to reset password")
         }
     
         setLoading(false)
@@ -31,17 +32,12 @@ function Login() {
 
     return (
             <div className="authen">
-                <h1>LOGIN</h1>
+                <h1>Forgot Password</h1>
                 <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
-                <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
-
-                <button className="button" onClick={handleSubmit}>Log In</button>
-                <Link to="/forgot-password">Forgot Password?</Link>
-                <div >
-                    Need an account? <Link to="/signup">Sign Up</Link>
-                </div>
+                <br />
+                {message}
+                <button className="button" onClick={handleSubmit}>Reset Password</button><br/>
+                <Link to="/login">Login</Link>
             </div>
     )
 }
-
-export default Login;
