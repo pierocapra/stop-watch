@@ -261,3 +261,38 @@ button {
 .control-button {
   width: 100%
 } 
+
+/* Authen */
+
+input[type="email"] {
+  width: 360px;
+  margin-top: 20px;
+  padding: 5px;
+  font-size: 20px;
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  transition: border 0.3s;
+}
+
+input[type="password"] {
+  width: 360px;
+  margin-top: 20px;
+  padding: 5px;
+  font-size: 20px;
+
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  transition: border 0.3s;
+}
+input[type="email"]:focus,
+input[type="password"].focus {
+  border-bottom: solid 2px #969696;
+}
+
+.hide{
+  display: none;
+}
+
+.authen .button:not(:last-of-type) {
+  margin-right: 1rem;
+}
