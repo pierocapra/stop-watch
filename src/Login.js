@@ -30,13 +30,13 @@ function Login() {
 
 
     return (
-            <div className="authen">
-                <h1>LOGIN</h1>
+            <div className="auth">
+                <h1>Login</h1>
                 <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
                 <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
 
                 <button className="button" onClick={handleSubmit}>Log In</button>
-                <Link to="/forgot-password">Forgot Password?</Link>
+                <Link to="/forgot-password" className="side-text">Forgot Password?</Link>
                 <div >
                     Need an account? <Link to="/signup">Sign Up</Link>
                 </div>

@@ -4,7 +4,6 @@ import { useAuth } from './Auth';
 
 const PrivateRoute = ({children}) => {
     const currentUser  = useAuth()
-    // console.log(currentUser.currentUser.email);
 
     return currentUser ? children : <Navigate to="/login" />
   };

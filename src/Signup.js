@@ -15,10 +15,7 @@ function Signup() {
     const navigate = useNavigate();
     const { signup } = useAuth();
 
-    const [message, setMessage] = useState('')
-
     async function handleSubmit(e) {
-        e.preventDefault()
     
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
           return setError("Passwords do not match")
@@ -37,14 +34,13 @@ function Signup() {
       }
 
     return (
-            <div className="authen">
+            <div className="auth">
                 <h1>SIGNUP</h1>
-                {error && <h2>{error}</h2>}
                 <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
                 <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
                 <input id="pass" type="password" placeholder="Confirm your password" ref={passwordConfirmRef}/><br />
 
-                <p>{message}</p>
+                {error && <h4 className="error-message">{error}</h4>}
 
                 <button className="button" onClick={handleSubmit}>Sign Up</button>
 

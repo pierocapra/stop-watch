@@ -12,17 +12,19 @@ import './App.css';
 function App() {
 
   return (
-    <Router>
-      <AuthProvider>
-        <Routes>
-          <Route exact path='/' element={<PrivateRoute><Main /></PrivateRoute>}>
-          </Route>
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<Signup />} />
-          <Route exact path='/forgot-password' element={<ForgotPassword />} />
-        </Routes>
-      </AuthProvider>
-    </Router>
+    <main className="app">
+      <Router>
+        <AuthProvider>
+          <Routes>
+            <Route exact path='/' element={<PrivateRoute><Main /></PrivateRoute>}>
+            </Route>
+            <Route exact path='/login' element={<Login />} />
+            <Route exact path='/signup' element={<Signup />} />
+            <Route exact path='/forgot-password' element={<ForgotPassword />} />
+          </Routes>
+        </AuthProvider>
+      </Router>
+    </main>
   );
 }
 

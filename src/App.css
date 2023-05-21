@@ -1,26 +1,27 @@
 /* App styles */
 html {
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #333;
   background-color: #fff;
   line-height: 1;
+  text-align: left;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  text-align: left;
 }
 
 .app {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
-  padding: 0 2rem;
+  padding: 2rem;
 }
 
 h1 {
-  margin: 20px 0;
   font-size: 24px;
   text-align: center;
 }
@@ -28,6 +29,30 @@ h1 {
 button {
   cursor: pointer;
   border: none;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  border-bottom: solid 1px #c9c9c9;
+  transition: border 0.3s;
+  border-radius: 4px;
+}
+
+input[type="password"] {
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  border-bottom: solid 1px #c9c9c9;
+  transition: border 0.3s;
+}
+input[type="email"]:focus,
+input[type="password"].focus {
+  border-bottom: solid 2px #969696;
 }
 
 
@@ -123,7 +148,7 @@ button {
 .stopwatch-controls {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .stopwatch-container .button {
@@ -179,6 +204,7 @@ button {
   outline: none;
 }
 
+/* Modal */
 .modal {
   position: absolute;
   top: 0;
@@ -236,6 +262,7 @@ button {
   transition: background-color 0.3s;
 }
 
+/* Control */
 .control label {
   display: block;
   font-weight: bold;
@@ -262,37 +289,34 @@ button {
   width: 100%
 } 
 
-/* Authen */
-
-input[type="email"] {
-  width: 360px;
-  margin-top: 20px;
-  padding: 5px;
-  font-size: 20px;
-  border: none;
-  border-bottom: solid 2px #c9c9c9;
-  transition: border 0.3s;
+/* Auth */
+.auth {
+  border: 2px solid #204678;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  background-color: #20467809;
 }
 
-input[type="password"] {
-  width: 360px;
-  margin-top: 20px;
-  padding: 5px;
-  font-size: 20px;
-
-  border: none;
-  border-bottom: solid 2px #c9c9c9;
-  transition: border 0.3s;
-}
-input[type="email"]:focus,
-input[type="password"].focus {
-  border-bottom: solid 2px #969696;
+.auth * + * {
+  margin-top: 1rem;
 }
 
-.hide{
+.auth .side-text {
+  margin-left: 1rem;
+}
+
+.auth .error-message {
+  margin-bottom: 0;
+  color: red;
+  font-weight: 400;
+}
+
+.hide {
   display: none;
-}
-
-.authen .button:not(:last-of-type) {
-  margin-right: 1rem;
 }

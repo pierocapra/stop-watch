@@ -13,7 +13,6 @@ export default function ForgotPassword() {
     async function handleSubmit(e) {
         e.preventDefault()
 
-        
         try {
           setMessage('')
           setError("")
@@ -29,13 +28,13 @@ export default function ForgotPassword() {
 
 
     return (
-            <div className="authen">
+            <div className="auth">
                 <h1>Forgot Password</h1>
                 <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
                 <br />
                 {message}
-                <button className="button" onClick={handleSubmit}>Reset Password</button><br/>
-                <Link to="/login">Login</Link>
+                <button className="button" onClick={handleSubmit}>Reset Password</button>
+                <Link to="/login" className="side-text">Back to Login</Link>
             </div>
     )
 }
