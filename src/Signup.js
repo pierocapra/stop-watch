@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { getDatabase, ref, set } from "firebase/database";
-import app from './firebase';
 import { Link } from "react-router-dom"
 
 import { useAuth } from './Auth';
@@ -11,7 +9,7 @@ function Signup() {
     const passwordConfirmRef = useRef()
     const emailRef = useRef();
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const { signup } = useAuth();
 
@@ -23,14 +21,14 @@ function Signup() {
     
         try {
           setError("")
-          setLoading(true)
+          // setLoading(true)
           await signup(emailRef.current.value, passwordRef.current.value)
           navigate("/")
         } catch {
           setError("Failed to create an account")
         }
     
-        setLoading(false)
+        // setLoading(false)
       }
 
     return (
