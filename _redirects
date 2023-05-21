@@ -1,5 +1,0 @@
-# Redirects from what the browser requests to what we serve
-/                /
-/login           https://stopwatch-multiple.netlify.app/login
-/signup                https://stopwatch-multiple.netlify.app/signup
-/forgot-password             https://stopwatch-multiple.netlify.app/forgot-password
