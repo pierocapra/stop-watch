@@ -12,9 +12,7 @@ function Main() {
   const [error, setError] = useState(null);
   const [addStopwatch, setAddStopwatch] = useState(false)
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth()
-
-  console.log(currentUser);
+  const { logout } = useAuth()
 
   async function handleLogout() {
     setError("")
@@ -199,7 +197,6 @@ function Main() {
   return (
     <>
       <h1>Multiple Stopwatch</h1>
-      <h3>Email: </h3> {currentUser.email}
       {isLoading && <p>Loading...</p>}
       {!isLoading && error && <p>Something got wrong</p>}
       {!isLoading && stopwatches.length === 0 && <p>Create your first Stopwatch!</p>}

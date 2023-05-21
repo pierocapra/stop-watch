@@ -15,7 +15,6 @@ export default function ForgotPassword() {
 
         
         try {
-            console.log("test");
           setMessage('')
           setError("")
           setLoading(true)

@@ -36,34 +36,6 @@ function Signup() {
         setLoading(false)
       }
 
-    // const signup = () => {
-    //     const signupEmail = email.current.value;
-    //     const signupPassword = password.current.value;
-    //     const auth = getAuth(app);
-
-    //     const promise = createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
-
-    //     promise
-    //     .then(res => {
-    //         const user = res.user;
-    //         const message = "Welcome " + user.email;
-
-    //         const db = getDatabase(app);
-    //         set(ref(db, 'users/' + user.uid), {
-    //         email: user.email
-    //         });
-
-    //         setMessage(message)
-    //     });
-
-    //     promise.catch(e => {
-    //         const err = e.message;
-    //         console.log("Error: " + err);
-    //         setMessage(err)
-    //     })
-        
-    // }
-
     return (
             <div className="authen">
                 <h1>SIGNUP</h1>
