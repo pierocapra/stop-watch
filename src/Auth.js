@@ -13,6 +13,7 @@ export function useAuth() {
 
 export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);
+    const [isInitialized, setIsInitialized] = useState(false);
     const [loading, setLoading] = useState(false)
 
     function signup(email, password) {
@@ -30,6 +31,19 @@ export const AuthProvider = ({children}) => {
     function resetPassword(email) {
         sendPasswordResetEmail(auth, email);
     }
+
+    useEffect(() => {
+        const initializeAuth = async () => {
+          try {
+            await auth._initializationPromise;
+            setIsInitialized(true);
+          } catch (error) {
+            // Handle error if authentication initialization fails
+            console.error(error);
+          }
+        };
+        initializeAuth();
+      }, []);
       
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
@@ -41,6 +55,7 @@ export const AuthProvider = ({children}) => {
         
     const value = {
         currentUser,
+        isInitialized,
         signup,
         login,
         logout,
