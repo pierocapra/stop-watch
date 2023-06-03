@@ -14,11 +14,11 @@ html {
   box-sizing: border-box;
 }
 
-.app {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 0 2rem;
 }
 
 h1 {
@@ -319,4 +319,39 @@ input[type="password"].focus {
 
 .hide {
   display: none;
+}
+
+/* Header */
+
+.header {
+  background-color: #205e78ea;
+  color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.header-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-right button {
+  margin-top: 0;
+}
+
+.header-right *:not(:last-child){
+  margin-right: 1rem;
+}
+
+.header-left {
+  line-height: initial;
+}
+
+@media only screen and (max-width: 600px)  {
+  .header-right p {
+    display: none;
+  }
 }

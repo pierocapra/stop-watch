@@ -1,8 +1,8 @@
 import React, { useState , useEffect, useCallback} from 'react';
-import { useNavigate } from 'react-router-dom';
+
+// Components
 import Stopwatch from './components/Stopwatch';
 import AddStopWatch from './components/AddStopWatch';
-import { useAuth } from './Auth';
 
 import './App.css';
 
@@ -11,19 +11,8 @@ function Main() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [addStopwatch, setAddStopwatch] = useState(false)
-  const navigate = useNavigate();
-  const { logout } = useAuth()
-
-  async function handleLogout() {
-    setError("")
-
-    try {
-      await logout()
-      navigate("/login")
-    } catch {
-      setError("Failed to log out")
-    }
-  }
+ 
+  
   
   const fetchStopWatchHandler = useCallback(async () => {
     setIsLoading(true);
@@ -195,8 +184,7 @@ function Main() {
   }
 
   return (
-    <>
-      <h1>Multiple Stopwatch</h1>
+    <div className="container">
       {isLoading && <p>Loading...</p>}
       {!isLoading && error && <p>Something got wrong</p>}
       {!isLoading && stopwatches.length === 0 && <p>Create your first Stopwatch!</p>}
@@ -222,8 +210,7 @@ function Main() {
       }
       <button className="button" onClick={handleAddStopwatchModal}>Add StopWatch</button>
       {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}<br/>
-      <button className="button" onClick={handleLogout}>SignOut</button>
-    </>
+    </div>
   );
 }
 
