@@ -354,3 +354,33 @@ input[type="text"]:focus {
     display: none;
   }
 }
+
+.spinner {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #34343460;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.spinner-inner {
+  width: 100px;
+  height: 100px;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

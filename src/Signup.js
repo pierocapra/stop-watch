@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import {  updateProfile } from "firebase/auth";
+import Spinner from './components/Spinner';
 
 import { useAuth } from './Auth';
 
@@ -12,9 +13,9 @@ function Signup() {
     const firstNameRef = useRef();
     const lastNameRef = useRef();
     const [error, setError] = useState("")
-    // const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
-    const { signup, reloadUser } = useAuth();
+    const { signup } = useAuth();
 
     async function handleSubmit(e) {
     
@@ -24,7 +25,7 @@ function Signup() {
     
         try {
           setError("")
-          // setLoading(true)
+          setLoading(true)
           await signup(emailRef.current.value, passwordRef.current.value)
             .then((userCredential) => {
                 // Signed in 
@@ -43,10 +44,12 @@ function Signup() {
           setError("Failed to create an account")
         }
     
-        // setLoading(false)
+        setLoading(false)
       }
 
     return (
+      <>
+        {loading && <Spinner />}
           <div className="container">
             <div className="auth">
                 <h1>SIGNUP</h1>
@@ -64,7 +67,8 @@ function Signup() {
                     Already have an account? <Link to="/login">Log In</Link>
                 </div>
             </div>
-          </div>      
+          </div>       
+      </>
     )
 }
 

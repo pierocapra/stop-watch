@@ -2,11 +2,14 @@ import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useAuth } from './Auth';
 
+// COMPONENTS
+import Spinner from './components/Spinner';
+
 export default function ForgotPassword() {
     const emailRef = useRef()
     const { resetPassword } = useAuth()
     const [error, setError] = useState("")
-    // const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
 
 
@@ -16,18 +19,20 @@ export default function ForgotPassword() {
         try {
           setMessage('')
           setError("")
-          // setLoading(true)
+          setLoading(true)
           setMessage("Check your inbox for instructions")
           await resetPassword(emailRef.current.value)
         } catch {
           setError("Failed to reset password")
         }
     
-        // setLoading(false)
+        setLoading(false)
       }
 
 
     return (
+        <>
+          {loading && <Spinner />}
           <div className="container">
             <div className="auth">
                 <h1>Forgot Password</h1>
@@ -39,5 +44,6 @@ export default function ForgotPassword() {
                 <Link to="/login" className="additional-form-text">Back to Login</Link>
             </div>
           </div>
+        </>  
     )
 }
