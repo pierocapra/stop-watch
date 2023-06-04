@@ -303,7 +303,7 @@ input[type="text"]:focus {
 .auth .additional-form-text {
   display: block;
   font-size: 12px;
-  line-height: 0.5;
+  line-height: 1;
 }
 
 .auth .error-message {
