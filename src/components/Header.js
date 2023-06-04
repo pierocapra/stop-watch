@@ -21,6 +21,7 @@ const Header = () => {
       }
 
     const {currentUser}  = useAuth();
+    console.log(currentUser.displayName);
 
     return (
         <nav className="header">
@@ -30,7 +31,7 @@ const Header = () => {
 
             <div className="header-right">
                 {currentUser && <>
-                    <p> Hello {currentUser.email} </p>
+                    <p> Hello {currentUser.displayName} </p>
                 
                     <button className="button" onClick={handleLogout}>SignOut</button> 
                     </>

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import {  updateProfile } from "firebase/auth";
 
 import { useAuth } from './Auth';
 
@@ -8,10 +9,12 @@ function Signup() {
     const passwordRef = useRef();
     const passwordConfirmRef = useRef()
     const emailRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
     const [error, setError] = useState("")
     // const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
-    const { signup } = useAuth();
+    const { signup, reloadUser } = useAuth();
 
     async function handleSubmit(e) {
     
@@ -23,7 +26,19 @@ function Signup() {
           setError("")
           // setLoading(true)
           await signup(emailRef.current.value, passwordRef.current.value)
-          navigate("/")
+            .then((userCredential) => {
+                // Signed in 
+                updateProfile(userCredential.user, {
+                    displayName:  firstNameRef.current.value + " " + lastNameRef.current.value
+                })
+            })
+            .then(() => {
+              // setTimeout is a bit hacky, can think of different solution
+              setTimeout(()=>{navigate("/")}, 500)           
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         } catch {
           setError("Failed to create an account")
         }
@@ -32,20 +47,24 @@ function Signup() {
       }
 
     return (
+          <div className="container">
             <div className="auth">
                 <h1>SIGNUP</h1>
-                <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
-                <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
-                <input id="pass" type="password" placeholder="Confirm your password" ref={passwordConfirmRef}/><br />
+                <input id="firstName" type="text" placeholder="First Name" ref={firstNameRef} /><br />
+                <input id="lastName" type="text" placeholder="Last Name" ref={lastNameRef} /><br />
+                <input id="email" type="email" placeholder="Email" ref={emailRef} /><br />
+                <input id="pass" type="password" placeholder="Password" ref={passwordRef}/><br />
+                <input id="pass" type="password" placeholder="Confirm Password" ref={passwordConfirmRef}/><br />
 
                 {error && <h4 className="error-message">{error}</h4>}
 
                 <button className="button" onClick={handleSubmit}>Sign Up</button>
 
-                <div>
+                <div className="additional-form-text">
                     Already have an account? <Link to="/login">Log In</Link>
                 </div>
             </div>
+          </div>      
     )
 }
 

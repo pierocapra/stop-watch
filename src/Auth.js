@@ -17,7 +17,7 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(false)
 
     function signup(email, password) {
-        return createUserWithEmailAndPassword(auth, email, password);
+        return createUserWithEmailAndPassword(auth, email, password)            
     }
 
     function login(email, password) {
@@ -52,14 +52,21 @@ export const AuthProvider = ({children}) => {
         });
         return unsubscribe;  
     }, []);
+
+    // async function reloadUser() {
+    //     await auth.currentUser.reload();
+    // }
         
+    // console.log(auth.currentUser);
+
     const value = {
         currentUser,
         isInitialized,
         signup,
         login,
         logout,
-        resetPassword
+        resetPassword,
+        // reloadUser
     }
 
     return (

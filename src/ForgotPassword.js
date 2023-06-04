@@ -28,14 +28,16 @@ export default function ForgotPassword() {
 
 
     return (
+          <div className="container">
             <div className="auth">
                 <h1>Forgot Password</h1>
-                <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
+                <input id="email" type="email" placeholder="Enter your email" ref={emailRef} />
                 <br />
                 {error && <h4 className="error-message">{error}</h4>}
                 {message}
                 <button className="button" onClick={handleSubmit}>Reset Password</button>
-                <Link to="/login" className="side-text">Back to Login</Link>
+                <Link to="/login" className="additional-form-text">Back to Login</Link>
             </div>
+          </div>
     )
 }

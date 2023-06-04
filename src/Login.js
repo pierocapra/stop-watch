@@ -30,19 +30,21 @@ function Login() {
 
 
     return (
-            <div className="auth">
-                <h1>Login</h1>
-                <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
-                <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
+      <div className="container">
+          <div className="auth">
+              <h1>Login</h1>
+              <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
+              <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
 
-                {error && <h4 className="error-message">{error}</h4>}
+              {error && <h4 className="error-message">{error}</h4>}
 
-                <button className="button" onClick={handleSubmit}>Log In</button>
-                <Link to="/forgot-password" className="side-text">Forgot Password?</Link>
-                <div >
-                    Need an account? <Link to="/signup">Sign Up</Link>
-                </div>
-            </div>
+              <button className="button" onClick={handleSubmit}>Log In</button>
+              <Link to="/forgot-password" className="additional-form-text">Forgot Password?</Link>
+              <div className="additional-form-text">
+                  Need an account? <Link to="/signup">Sign Up</Link>
+              </div>
+          </div>
+      </div>
     )
 }
 
