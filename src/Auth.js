@@ -53,20 +53,13 @@ export const AuthProvider = ({children}) => {
         return unsubscribe;  
     }, []);
 
-    // async function reloadUser() {
-    //     await auth.currentUser.reload();
-    // }
-        
-    // console.log(auth.currentUser);
-
     const value = {
         currentUser,
         isInitialized,
         signup,
         login,
         logout,
-        resetPassword,
-        // reloadUser
+        resetPassword
     }
 
     return (

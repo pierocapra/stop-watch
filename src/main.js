@@ -1,4 +1,5 @@
 import React, { useState , useEffect, useCallback} from 'react';
+import { useAuth } from './Auth';
 
 // Components
 import Stopwatch from './components/Stopwatch';
@@ -10,15 +11,17 @@ function Main() {
   const [stopwatches, setStopwatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [addStopwatch, setAddStopwatch] = useState(false)
- 
-  
+  const [addStopwatch, setAddStopwatch] = useState(false) 
+
+  const {currentUser}  = useAuth()
+
+  console.log(currentUser.uid);
   
   const fetchStopWatchHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch.json');
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}.json`);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -42,7 +45,7 @@ function Main() {
       setError(error.message);
     }
     setIsLoading(false);
-  }, []);
+  }, [currentUser.uid]);
 
   useEffect(() => {
     fetchStopWatchHandler();
@@ -50,7 +53,7 @@ function Main() {
 
   const addStopWatchHandler = async (stopwatch) =>{
     try {
-      const response = await fetch('https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch.json',{
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}.json`,{
         method:'POST',
         body: JSON.stringify(stopwatch),
         headers: {
@@ -71,7 +74,7 @@ function Main() {
   const handleOnPause = async (id, newTime) => {
     // Update data on pause
     try {
-      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'PATCH',
         body: JSON.stringify({ time: newTime }),
         headers: {
@@ -91,7 +94,7 @@ function Main() {
   const handleOnReset = async (id) => {
     // Zero time on reset
     try {
-      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'PATCH',
         body: JSON.stringify({ time: 0 }),
         headers: {
@@ -111,7 +114,7 @@ function Main() {
   const handleOnDelete = async (id) => {
     // Delete timer on reset
     try {
-      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'DELETE'
       });
 
@@ -128,7 +131,7 @@ function Main() {
   const handleNewName = async (id, newName) => {
     // Change Name
     try {
-      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'PATCH',
         body: JSON.stringify({ name: newName }),
         headers: {
@@ -151,13 +154,13 @@ function Main() {
     const amountInMs = amountToAdd * 60000;
 
     try {
-      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`)
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`)
       
       const data = await response.json();
       const existingTime = data.time;
       const updatedTime = existingTime + amountInMs;
       
-      await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${id}.json`,{
+      await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'PATCH',
         body: JSON.stringify({ time: updatedTime }),
         headers: {
