@@ -16,9 +16,9 @@ function App() {
     <main className="app">
       <Router>
         <AuthProvider>
-          
+        <Header />
           <Routes>
-            <Route exact path='/' element={<PrivateRoute><Header /><Main /></PrivateRoute>}>
+            <Route exact path='/' element={<PrivateRoute><Main /></PrivateRoute>}>
             </Route>
             <Route exact path='/login' element={<Login />} />
             <Route exact path='/signup' element={<Signup />} />

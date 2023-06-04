@@ -8,20 +8,25 @@ const Header = () => {
     const { logout } = useAuth()
     const navigate = useNavigate();
     
-      async function handleLogout() {
-        setError("")
-    
-        try {
-          await logout()
-          navigate("/login")
-        } catch {
-          setError("Failed to log out")
-          console.log(error);
-        }
+    async function handleLogout() {
+      setError("")
+  
+      try {
+        await logout()
+        navigate("/login")
+      } catch {
+        setError("Failed to log out")
+        console.log(error);
       }
+    }
 
     const {currentUser}  = useAuth();
-    console.log(currentUser.displayName);
+
+    function getInitials(name) {
+      const nameArray = name.split(' '); // Split the name into an array of words
+      const initials = nameArray.map(word => word.charAt(0).toUpperCase()); // Get the first character of each word and capitalize it
+      return initials.join(''); // Join the initials into a single string
+    }
 
     return (
         <nav className="header">
@@ -32,9 +37,9 @@ const Header = () => {
             <div className="header-right">
                 {currentUser && <>
                     <p> Hello {currentUser.displayName} </p>
-                
+                    {currentUser.displayName ? <div className="initials-tag"> {getInitials(currentUser.displayName)} </div> : "" }
                     <button className="button" onClick={handleLogout}>SignOut</button> 
-                    </>
+                  </>
                 }
             </div>
         </nav>

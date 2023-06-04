@@ -14,7 +14,6 @@ function Login() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const {currentUser}  = useAuth();
-    console.log(currentUser);
 
     async function handleSubmit(e) {
         e.preventDefault()
