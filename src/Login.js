@@ -13,7 +13,6 @@ function Login() {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
-    const {currentUser}  = useAuth();
 
     async function handleSubmit(e) {
         e.preventDefault()
