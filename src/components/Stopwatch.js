@@ -10,6 +10,7 @@ const Stopwatch = (props) => {
   const [editTime, setEditTime] = useState(false);
   const timeRef = useRef('');
   const timeSubmitRef = useRef('');
+  const [nameValue, setNameValue] = useState(props.name);
 
   useEffect(() => {
     const storedStartTime = localStorage.getItem(`stopwatch-${props.id}-startTime`);
@@ -97,7 +98,6 @@ const Stopwatch = (props) => {
     }
   }, [editName, editTime])
   
-
   const formatTime = (time) => {
     const date = new Date(time);
     const hours = date.getUTCHours().toString().padStart(2, '0');
@@ -106,11 +106,34 @@ const Stopwatch = (props) => {
     return `${hours}:${minutes}:${seconds}`;
   };
 
-  const [value, setValue] = useState(props.name);
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleNameChange = (event) => {
+    setNameValue(event.target.value);
   };
+
+
+  // Autosave time every 30 sec 
+  const [lastRenderTime, setLastRenderTime] = useState(Date.now());
+
+  useEffect(() => {
+    let interval = null;
+
+    if (isRunning) {
+      interval = setInterval(() => {
+        const currentTime = Date.now();
+        if (currentTime - lastRenderTime >= 30000) {
+          // Call your function here
+          console.log(elapsedTime + 30000);
+          props.autoSaveTime(props.id, elapsedTime + (currentTime - lastRenderTime))
+          setLastRenderTime(currentTime);
+        }
+      }, 1000); // Check every 1 second
+    }
+
+    return () => {
+      clearInterval(interval); // Clean up the interval on component unmount or when isRunning changes to false
+    };
+  }, [isRunning, lastRenderTime]);
+
 
   return (
     <div className="stopwatch">
@@ -118,8 +141,7 @@ const Stopwatch = (props) => {
         <h2 onClick={handleEditName}>
           {!editName && props.name}
           {editName && <form onSubmit={submitNewName}>
-              <input className="stopwatch-edit-name" type="text" placeholder={props.name} value={value}
-      onChange={handleChange} ref={nameRef}/>
+              <input className="stopwatch-edit-name" type="text" placeholder={props.name} value={nameValue} onChange={handleNameChange} ref={nameRef}/>
             </form>}
         </h2>
         <p>{props.date}</p>
@@ -155,7 +177,8 @@ Stopwatch.propTypes = {
   handleOnPause: PropTypes.func.isRequired,
   handleOnReset: PropTypes.func.isRequired,
   handleOnDelete: PropTypes.func.isRequired,
-  handleNewName: PropTypes.func
+  handleNewName: PropTypes.func,
+  autoSaveTime: PropTypes.func
 };
 
 export default Stopwatch;

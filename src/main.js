@@ -194,6 +194,26 @@ function Main() {
   const closeModal = () => {
     setAddStopwatch(false);
   }
+  
+  // Auto save time
+  const autoSaveTime = async (id, newTime) => {
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
+        method:'PATCH',
+        body: JSON.stringify({ time: newTime }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+    } catch (error) {
+      setError(error.message);
+    }
+  }
 
   return (
     <div className="container">
@@ -215,6 +235,7 @@ function Main() {
                 handleOnDelete={handleOnDelete}
                 handleNewName={handleNewName}
                 handleNewTime={handleNewTime}
+                autoSaveTime={autoSaveTime}
               />
             </div>
           ))}
