@@ -15,8 +15,6 @@ function Main() {
 
   const {currentUser}  = useAuth()
 
-  console.log(currentUser.uid);
-  
   const fetchStopWatchHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -27,8 +25,7 @@ function Main() {
       }
 
       const data = await response.json();
-
-      const loadedStopWatches = [];
+      const loadedStopWatches = []; // Create a new array for each fetch
 
       for (const key in data) {
         loadedStopWatches.push({
@@ -129,7 +126,9 @@ function Main() {
   }
 
   const handleNewName = async (id, newName) => {
-    // Change Name
+    // Change Name 
+    // Reset content of current array
+    // Upload result to db
     try {
       const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'PATCH',
@@ -141,12 +140,23 @@ function Main() {
 
       if (!response.ok) {
         throw new Error('Something went wrong!');
+      } else {
+        const updatedStopwatches = stopwatches.map(stopwatch => {
+          if (stopwatch.id === id) {
+            return {
+              ...stopwatch,
+              name: newName,
+            };
+          }
+          return stopwatch;
+        });
+      
+        setStopwatches(updatedStopwatches);
       }
 
     } catch (error) {
       setError(error.message);
     }
-    fetchStopWatchHandler();
   }
 
   const handleNewTime = async (id, amountToAdd) => {
@@ -176,7 +186,6 @@ function Main() {
     }
     fetchStopWatchHandler();
   }
-
 
   const handleAddStopwatchModal = () => {
     setAddStopwatch(true);
