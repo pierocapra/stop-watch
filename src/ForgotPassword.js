@@ -16,18 +16,18 @@ export default function ForgotPassword() {
     async function handleSubmit(e) {
         e.preventDefault()
 
-        try {
           setMessage('')
           setError("")
           setLoading(true)
-          setMessage("Check your inbox for instructions")
           await resetPassword(emailRef.current.value)
-        } catch {
-          setError("Failed to reset password")
-        }
-    
-        setLoading(false)
-      }
+            .then(() => {
+              setMessage("Check your inbox for instructions")
+            })
+            .catch(error => {
+              setError("Failed to reset password: " +error.message)
+            });
+          setLoading(false)
+    }
 
 
     return (
@@ -36,11 +36,13 @@ export default function ForgotPassword() {
           <div className="container">
             <div className="auth">
                 <h1>Forgot Password</h1>
-                <input id="email" type="email" placeholder="Enter your email" ref={emailRef} />
-                <br />
-                {error && <h4 className="error-message">{error}</h4>}
-                {message}
-                <button className="button" onClick={handleSubmit}>Reset Password</button>
+                <form onSubmit={handleSubmit}>
+                  <input id="email" type="email" placeholder="Enter your email" ref={emailRef} required/>
+                  <br />
+                  {error && <h4 className="error-message">{error}</h4>}
+                  {message && <p>{message}</p>}
+                  <button type="submit" className="button">Reset Password</button>
+                </form>
                 <Link to="/login" className="additional-form-text">Back to Login</Link>
             </div>
           </div>

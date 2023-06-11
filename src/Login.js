@@ -16,16 +16,17 @@ function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-    
-        try {
-          setError("")
-          setLoading(true)
-          await login(emailRef.current.value, passwordRef.current.value)
-          navigate("/")
-        } catch {
-          setError("Failed to log in")
-        }
-    
+
+        setError("")
+        setLoading(true)
+        await login(emailRef.current.value, passwordRef.current.value)
+          .then((userCredential) => {
+            // Signed in 
+            navigate("/")
+          })
+          .catch((error) => {
+            setError("Failed to log in: " + error.code)
+          });
         setLoading(false)
       }
 
@@ -36,12 +37,14 @@ function Login() {
         <div className="container">
             <div className="auth">
                 <h1>Login</h1>
-                <input id="email" type="email" placeholder="Enter your email" ref={emailRef} /><br />
-                <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef}/><br />
+                <form onSubmit={handleSubmit}>
+                  <input id="email" type="email" placeholder="Enter your email" ref={emailRef} required/><br />
+                  <input id="pass" type="password" placeholder="Enter your password" ref={passwordRef} required/><br />
 
-                {error && <h4 className="error-message">{error}</h4>}
+                  {error && <h4 className="error-message">{error}</h4>}
 
-                <button className="button" onClick={handleSubmit}>Log In</button>
+                  <button type="submit" className="button">Log In</button>
+                </form>
                 <Link to="/forgot-password" className="additional-form-text">Forgot Password?</Link>
                 <div className="additional-form-text">
                     Need an account? <Link to="/signup">Sign Up</Link>

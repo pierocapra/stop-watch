@@ -29,7 +29,7 @@ export const AuthProvider = ({children}) => {
     }
 
     function resetPassword(email) {
-        sendPasswordResetEmail(auth, email);
+        return sendPasswordResetEmail(auth, email)
     }
 
     useEffect(() => {
