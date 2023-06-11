@@ -57,11 +57,12 @@ const Stopwatch = (props) => {
     props.handleOnDelete(props.id)
   };
 
-  
   const handleEditName = () => {
     setEditName(true);
+    setTimeout(() => {
+      nameRef.current.focus();
+    }, 1);
   }
-  
   const submitNewName = (event) => {
     event.preventDefault();
     setEditName(false);
@@ -105,13 +106,20 @@ const Stopwatch = (props) => {
     return `${hours}:${minutes}:${seconds}`;
   };
 
+  const [value, setValue] = useState(props.name);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   return (
     <div className="stopwatch">
       <div className="stopwatch-info">
         <h2 onClick={handleEditName}>
           {!editName && props.name}
           {editName && <form onSubmit={submitNewName}>
-              <input className="stopwatch-edit-name" type="text" placeholder={props.name} ref={nameRef}/>
+              <input className="stopwatch-edit-name" type="text" placeholder={props.name} value={value}
+      onChange={handleChange} ref={nameRef}/>
             </form>}
         </h2>
         <p>{props.date}</p>
