@@ -116,24 +116,24 @@ const Stopwatch = (props) => {
 
   useEffect(() => {
     let interval = null;
-
+  
     if (isRunning) {
       interval = setInterval(() => {
         const currentTime = Date.now();
         if (currentTime - lastRenderTime >= 30000) {
           // Call your function here
-          console.log(elapsedTime + 30000);
-          props.autoSaveTime(props.id, elapsedTime + (currentTime - lastRenderTime))
+          console.log(elapsedTime + (currentTime - lastRenderTime));
+          props.autoSaveTime(props.id, elapsedTime + (currentTime - lastRenderTime));
           setLastRenderTime(currentTime);
         }
       }, 1000); // Check every 1 second
     }
-
+  
     return () => {
       clearInterval(interval); // Clean up the interval on component unmount or when isRunning changes to false
     };
-  }, [isRunning, lastRenderTime]);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRunning, lastRenderTime]); 
 
   return (
     <div className="stopwatch">
