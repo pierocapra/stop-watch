@@ -43,7 +43,7 @@ function AddStopWatch(props) {
   return (
     <div className="modal">
         <div className="modal-overlay" onClick={props.closeModal}></div>
-        <div className="add-stopwatch">
+        <div className="modal-container add-stopwatch">
           <button className="add-stopwatch__close" onClick={props.closeModal}>X</button>
           <form onSubmit={submitHandler}>
             <div className="control">

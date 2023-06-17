@@ -66,6 +66,21 @@ input[type="text"]:focus {
   background-color: #2a5c9c;
 }
 
+.delete-all-button {
+  margin-top: 24px;
+}
+.delete-all-button,
+.go-ahead {
+  background-color: #d72c29;
+  transition: background-color 0.3s;
+}
+
+.delete-all-button:hover,
+.go-ahead:hover {
+  background-color: #eb4033;
+  transition: background-color 0.3s;
+}
+
 /* StopwatchList styles */
 .stopwatch-list {
   display: flex;
@@ -89,7 +104,6 @@ input[type="text"]:focus {
   margin: 0 0 8px;
   font-size: 16px;
   font-weight: bold;
-  /* text-transform: uppercase; */
   cursor: pointer;
 }
 
@@ -218,14 +232,26 @@ input[type="text"]:focus {
   background-color: #2046786e;
 }
 
-.modal .add-stopwatch {
+.modal .modal-container {
   position: relative;
   padding: 2rem;
-  border: 2px solid rgb(32, 94, 121);
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   z-index: 1;
+  margin: 2rem;
+}
+
+.modal .add-stopwatch{
+  border: 2px solid rgb(32, 94, 121);
+}
+
+.modal .delete-alert {
+  border: 2px solid #d72c29;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  
 }
 
 .modal .add-stopwatch__close {
@@ -233,7 +259,7 @@ input[type="text"]:focus {
   color: rgb(54, 54, 54);
   position: absolute;
   top: 9px;
-  right: 5px;
+  right: 9px;
 }
 
 .modal .add-stopwatch__close::before {
@@ -253,6 +279,18 @@ input[type="text"]:focus {
 .modal .add-stopwatch__close:hover::before {
   background-color: rgba(32, 94, 121, 0.26);
   transition: background-color 0.3s;
+}
+
+.danger-alert {
+  color: white;
+  background-color: #d72c29;
+  text-align: center;
+  padding: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Control */

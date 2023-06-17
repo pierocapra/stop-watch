@@ -4,6 +4,7 @@ import { useAuth } from './Auth';
 // Components
 import Stopwatch from './components/Stopwatch';
 import AddStopWatch from './components/AddStopWatch';
+import DeleteAllModal from './components/DeleteAllModal';
 
 import './App.css';
 
@@ -12,6 +13,7 @@ function Main() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [addStopwatch, setAddStopwatch] = useState(false) 
+  const [deleteAllAlert, setDeleteAllAlert] = useState(false)
 
   const {currentUser}  = useAuth()
 
@@ -193,6 +195,7 @@ function Main() {
 
   const closeModal = () => {
     setAddStopwatch(false);
+    setDeleteAllAlert(false);
   }
   
   // Auto save time
@@ -210,6 +213,28 @@ function Main() {
         throw new Error('Something went wrong!');
       }
 
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
+  const handleDeleteAll = () => {
+    setDeleteAllAlert(true)
+  }
+  
+  const deleteAll = async () => {
+    try {
+      const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}.json`,{
+        method:'DELETE'
+      });
+  
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+  
+      setStopwatches([]);
+      setDeleteAllAlert(false);
+  
     } catch (error) {
       setError(error.message);
     }
@@ -242,7 +267,9 @@ function Main() {
         </div>
       }
       <button className="button" onClick={handleAddStopwatchModal}>Add StopWatch</button>
-      {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}<br/>
+      {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}
+      <button className="button delete-all-button" onClick={handleDeleteAll}>Delete All</button> 
+      {deleteAllAlert && <DeleteAllModal deleteAll={deleteAll} closeModal={closeModal}/>}
     </div>
   );
 }
