@@ -63,12 +63,14 @@ function Main() {
       });
       if (!response.ok) {
         throw new Error('Something went wrong!');
+      } else {
+        // Add stopwatch to current array
+        stopwatches.push(stopwatch)
       }
       
     } catch (error) {
       setError(error.message);
     }
-    fetchStopWatchHandler();
     setAddStopwatch(false)
   }
 
@@ -174,6 +176,7 @@ function Main() {
       const existingTime = data.time;
       const updatedTime = existingTime + amountInMs;
       
+      // Upload result to db
       await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
         method:'PATCH',
         body: JSON.stringify({ time: updatedTime }),
@@ -184,11 +187,22 @@ function Main() {
       
       if (!response.ok) {
         throw new Error('Something went wrong!');
-      }
+      } else {
+        // Reset content of current array
+        const updatedStopwatches = stopwatches.map(stopwatch => {
+          if (stopwatch.id === id) {
+            return {
+              ...stopwatch,
+              time: updatedTime,
+            };
+          }
+          return stopwatch;
+        })
+        setStopwatches(updatedStopwatches);
+      }    
     } catch (error) {
       setError(error.message);
     }
-    fetchStopWatchHandler();
   }
 
   const handleAddStopwatchModal = () => {

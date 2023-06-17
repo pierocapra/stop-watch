@@ -126,12 +126,16 @@ input[type="text"]:focus {
 .stopwatch-container .stopwatch-time {
   margin: 0;
   font-size: 16px;
-  cursor: pointer;
 }
 
-.stopwatch-container .stopwatch-time-displayed:hover{
+.stopwatch-container .stopwatch-time-not-clickable {
+  color: #204678;
+}
+
+.stopwatch-container .stopwatch-time-clickable:hover{
   color: red;
   transition: color 0.1s;
+  cursor: pointer;
 }
 
 .stopwatch-edit-time input {

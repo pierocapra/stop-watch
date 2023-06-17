@@ -72,7 +72,7 @@ const Stopwatch = (props) => {
     props.handleNewName(props.id, nameRef.current.value.toUpperCase());
   }
   const handleEditTime = () => {
-    setEditTime(true);
+    if (!isRunning) setEditTime(true);
   }
 
   const submitNewTime = (event) => {
@@ -147,8 +147,8 @@ const Stopwatch = (props) => {
         <p>{props.date}</p>
       </div>
       <div className="stopwatch-time" onClick={handleEditTime}>
-        {!editTime && <span className="stopwatch-time-displayed">{formatTime(elapsedTime)}</span>}
-        {editTime && (
+        {!editTime && <span className={ isRunning ? "stopwatch-time-not-clickable": "stopwatch-time-clickable"}>{formatTime(elapsedTime)}</span>}
+        {editTime && !isRunning&& (
             <form className="stopwatch-edit-time" onSubmit={submitNewTime}>
               <input  type="number" step="5" ref={timeRef} id="edit-time"/>
               <label htmlFor="edit-time">minutes</label>
