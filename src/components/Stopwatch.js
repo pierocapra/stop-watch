@@ -56,6 +56,7 @@ const Stopwatch = (props) => {
 
   const handleDelete = () => {
     props.handleOnDelete(props.id)
+    localStorage.removeItem(`stopwatch-${props.id}-startTime`);
   };
 
   const handleEditName = () => {
@@ -122,7 +123,6 @@ const Stopwatch = (props) => {
         const currentTime = Date.now();
         if (currentTime - lastRenderTime >= 30000) {
           // Call your function here
-          console.log(elapsedTime + (currentTime - lastRenderTime));
           props.autoSaveTime(props.id, elapsedTime + (currentTime - lastRenderTime));
           setLastRenderTime(currentTime);
         }

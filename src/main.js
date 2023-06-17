@@ -15,6 +15,8 @@ function Main() {
   const [addStopwatch, setAddStopwatch] = useState(false) 
   const [deleteAllAlert, setDeleteAllAlert] = useState(false)
 
+  console.log(stopwatches);
+
   const {currentUser}  = useAuth()
 
   const fetchStopWatchHandler = useCallback(async () => {
@@ -232,6 +234,11 @@ function Main() {
         throw new Error('Something went wrong!');
       }
   
+      //clear LocalStorage
+      stopwatches.forEach(stopwatch => {
+        localStorage.removeItem(`stopwatch-${stopwatch.id}-startTime`);
+      })
+
       setStopwatches([]);
       setDeleteAllAlert(false);
   
