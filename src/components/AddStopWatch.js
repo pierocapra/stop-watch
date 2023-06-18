@@ -51,6 +51,7 @@ function AddStopWatch(props) {
                 <input type='text' id='name' ref={nameRef} required/>
             </div>
             <button className="button control-button">Add Stopwatch</button>
+            <p><strong>Note: </strong>Your stopwatches will stop when submit</p>
           </form>
         </div>
     </div>
