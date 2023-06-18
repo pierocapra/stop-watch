@@ -15,8 +15,6 @@ function Main() {
   const [addStopwatch, setAddStopwatch] = useState(false) 
   const [deleteAllAlert, setDeleteAllAlert] = useState(false)
 
-  console.log(stopwatches);
-
   const {currentUser}  = useAuth()
 
   const fetchStopWatchHandler = useCallback(async () => {
@@ -63,15 +61,13 @@ function Main() {
       });
       if (!response.ok) {
         throw new Error('Something went wrong!');
-      } else {
-        // Add stopwatch to current array
-        stopwatches.push(stopwatch)
       }
       
     } catch (error) {
       setError(error.message);
     }
-    setAddStopwatch(false)
+    fetchStopWatchHandler();
+    setAddStopwatch(false);
   }
 
   const handleOnPause = async (id, newTime) => {
