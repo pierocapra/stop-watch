@@ -119,12 +119,15 @@ function Main() {
 
       if (!response.ok) {
         throw new Error('Something went wrong!');
+      } else {
+        setStopwatches(stopwatches.filter(stopwatch => {
+          return stopwatch.id !==id
+        }))
       }
 
     } catch (error) {
       setError(error.message);
     }
-    fetchStopWatchHandler();
   }
 
   const handleNewName = async (id, newName) => {
