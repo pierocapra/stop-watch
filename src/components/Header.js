@@ -28,6 +28,14 @@ const Header = () => {
       return initials.join(''); // Join the initials into a single string
     }
 
+    const handleResize = () => {
+      // Get the current URL of the tab
+      var currentUrl = window.location.href;
+  
+      // Open a new window with the same URL
+      window.open(currentUrl, "", "width=337, height=940");
+    }
+
     return (
         <nav className="header">
             <div className="header-left">
@@ -38,6 +46,7 @@ const Header = () => {
                 {currentUser && <>
                     <p> Hello {currentUser.displayName} </p>
                     {currentUser.displayName ? <div className="initials-tag"> {getInitials(currentUser.displayName)} </div> : "" }
+                    <button className="button resize-button" onClick={handleResize}>Resize</button> 
                     <button className="button" onClick={handleLogout}>SignOut</button> 
                   </>
                 }

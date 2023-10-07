@@ -397,6 +397,17 @@ input[type="text"]:focus {
   line-height: initial;
 }
 
+.resize-button {
+  background-color: #9e33b9;
+  @media only screen and (max-width: 380px)  {
+    display: none;
+  }
+}
+
+.resize-button:hover {
+  background-color: #8b25a5;
+}
+
 @media only screen and (max-width: 600px)  {
   .header-right p {
     display: none;
