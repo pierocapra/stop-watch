@@ -90,21 +90,23 @@ function TestPage() {
     //   setError(error.message);
     // }
 
-    // const amountInMs = amountToAdd * 60000; 
-    // const existingTime = localStorage.getItem(id);
+    const amountInMs = amountToAdd * 60000; 
+    const existingTime = localStorage.getItem(`stopwatch-${id}-startTime`);
 
-    // const updatedTime = existingTime + amountInMs;
+    console.log(existingTime);
 
-    // const updatedStopwatches = stopwatches.map(stopwatch => {
-    //   if (stopwatch.id === id) {
-    //     return {
-    //       ...stopwatch,
-    //       time: updatedTime,
-    //     };
-    //   }
-    //   return stopwatch;
-    // })
-    // setStopwatches(updatedStopwatches);
+    const updatedTime = existingTime + amountInMs;
+
+    const updatedStopwatches = stopwatches.map(stopwatch => {
+      if (stopwatch.id === id) {
+        return {
+          ...stopwatch,
+          time: updatedTime,
+        };
+      }
+      return stopwatch;
+    })
+    setStopwatches(updatedStopwatches);
   }
 
   const handleAddStopwatchModal = () => {
