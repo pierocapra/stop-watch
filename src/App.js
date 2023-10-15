@@ -5,6 +5,7 @@ import Signup from './Signup';
 import Main from './main';
 import PrivateRoute from "./PrivateRoute.js"
 import ForgotPassword from './ForgotPassword.js';
+import TestPage from './TestPage.js';
 import Header from './components/Header';
 
 // CSS
@@ -23,6 +24,7 @@ function App() {
             <Route exact path='/login' element={<Login />} />
             <Route exact path='/signup' element={<Signup />} />
             <Route exact path='/forgot-password' element={<ForgotPassword />} />
+            <Route exact path='test-page' element={<TestPage />} />
           </Routes>
         </AuthProvider>
       </Router>

@@ -40,6 +40,7 @@ function Main() {
       }
 
       setStopwatches(loadedStopWatches);
+      console.log(loadedStopWatches);
     } catch (error) {
       setError(error.message);
     }

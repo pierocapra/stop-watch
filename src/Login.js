@@ -49,6 +49,7 @@ function Login() {
                 <div className="additional-form-text">
                     Need an account? <Link to="/signup">Sign Up</Link>
                 </div>
+                <Link to="/test-page" className="additional-form-text">Test the app</Link>
             </div>
         </div>
       </>
