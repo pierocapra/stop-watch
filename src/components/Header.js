@@ -3,7 +3,7 @@ import { useAuth } from '../Auth';
 import { useNavigate } from 'react-router-dom';
 
 
-const Header = () => {
+const Header = (props) => {
     const [error, setError] = useState(null);
     const { logout } = useAuth()
     const navigate = useNavigate();
@@ -18,6 +18,10 @@ const Header = () => {
         setError("Failed to log out")
         console.log(error);
       }
+    }
+
+    function handleSignup() {
+        navigate("/signup")
     }
 
     const {currentUser}  = useAuth();
@@ -41,16 +45,22 @@ const Header = () => {
             <div className="header-left">
                 <h3>STOPWATCH</h3>
             </div>
-
-            <div className="header-right">
-                {currentUser && <>
-                    <p> Hello {currentUser.displayName} </p>
-                    {currentUser.displayName ? <div className="initials-tag"> {getInitials(currentUser.displayName)} </div> : "" }
-                    <button className="button resize-button" onClick={handleResize}>Resize</button> 
-                    <button className="button" onClick={handleLogout}>SignOut</button> 
-                  </>
-                }
-            </div>
+            {props.isTestPage &&  <div className="header-right">
+                  <p> Test the app </p>
+                  <button className="button resize-button" onClick={handleResize}>Resize</button> 
+                  <button className="button" onClick={handleSignup}>Signup</button>
+              </div>
+            }
+            {!props.isTestPage &&  <div className="header-right">
+                  {currentUser && <>
+                      <p> Hello {currentUser.displayName} </p>
+                      {currentUser.displayName ? <div className="initials-tag"> {getInitials(currentUser.displayName)} </div> : "" }
+                      <button className="button resize-button" onClick={handleResize}>Resize</button> 
+                      <button className="button" onClick={handleLogout}>SignOut</button> 
+                    </>
+                  }
+              </div>
+            }
         </nav>
     )
 }

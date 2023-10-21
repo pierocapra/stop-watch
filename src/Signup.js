@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import {  updateProfile } from "firebase/auth";
 import Spinner from './components/Spinner';
+import Header from './components/Header';
 
 import { useAuth } from './Auth';
 
@@ -46,6 +47,7 @@ function Signup() {
 
     return (
       <>
+        <Header />
         {loading && <Spinner />}
           <div className="container">
             <div className="auth">
