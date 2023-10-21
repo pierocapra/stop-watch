@@ -4,6 +4,7 @@ import { useAuth } from './Auth';
 
 // COMPONENTS
 import Spinner from './components/Spinner';
+import Header from './components/Header';
 
 export default function ForgotPassword() {
     const emailRef = useRef()
@@ -32,6 +33,7 @@ export default function ForgotPassword() {
 
     return (
         <>
+          <Header />
           {loading && <Spinner />}
           <div className="container">
             <div className="auth">

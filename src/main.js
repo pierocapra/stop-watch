@@ -5,6 +5,7 @@ import { useAuth } from './Auth';
 import Stopwatch from './components/Stopwatch';
 import AddStopWatch from './components/AddStopWatch';
 import DeleteAllModal from './components/DeleteAllModal';
+import Header from './components/Header';
 
 import './App.css';
 
@@ -40,6 +41,7 @@ function Main() {
       }
 
       setStopwatches(loadedStopWatches);
+      console.log(loadedStopWatches);
     } catch (error) {
       setError(error.message);
     }
@@ -250,6 +252,7 @@ function Main() {
       //clear LocalStorage
       stopwatches.forEach(stopwatch => {
         localStorage.removeItem(`stopwatch-${stopwatch.id}-startTime`);
+        localStorage.removeItem(`stopwatch-${stopwatch.id}-elapsedTime`);
       })
 
       setStopwatches([]);
@@ -261,36 +264,39 @@ function Main() {
   }
 
   return (
-    <div className="container">
-      {isLoading && <p>Loading...</p>}
-      {!isLoading && error && <p>Something got wrong</p>}
-      {!isLoading && stopwatches.length === 0 && <p>Create your first Stopwatch!</p>}
-      {!isLoading && stopwatches.length >= 1 &&
-        <div className="stopwatch-list">
-          {stopwatches.map((stopwatch) => (
-            <div className="stopwatch-container" key={stopwatch.id} style={{border: `2px solid ${stopwatch.color}`}}>
-              <Stopwatch
-                id={stopwatch.id}
-                name={stopwatch.name}
-                date={stopwatch.date}
-                time={stopwatch.time}
-                color={stopwatch.color}
-                handleOnPause={handleOnPause}
-                handleOnReset={handleOnReset}
-                handleOnDelete={handleOnDelete}
-                handleNewName={handleNewName}
-                handleNewTime={handleNewTime}
-                autoSaveTime={autoSaveTime}
-              />
-            </div>
-          ))}
-        </div>
-      }
-      <button className="button" onClick={handleAddStopwatchModal}>Add StopWatch</button>
-      {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}
-      <button className="button delete-all-button" onClick={handleDeleteAll}>Delete All</button> 
-      {deleteAllAlert && <DeleteAllModal deleteAll={deleteAll} closeModal={closeModal}/>}
-    </div>
+    <>
+      <Header />
+      <div className="container">
+        {isLoading && <p>Loading...</p>}
+        {!isLoading && error && <p>Something got wrong</p>}
+        {!isLoading && stopwatches.length === 0 && <p>Create your first Stopwatch!</p>}
+        {!isLoading && stopwatches.length >= 1 &&
+          <div className="stopwatch-list">
+            {stopwatches.map((stopwatch) => (
+              <div className="stopwatch-container" key={stopwatch.id} style={{border: `2px solid ${stopwatch.color}`}}>
+                <Stopwatch
+                  id={stopwatch.id}
+                  name={stopwatch.name}
+                  date={stopwatch.date}
+                  time={stopwatch.time}
+                  color={stopwatch.color}
+                  handleOnPause={handleOnPause}
+                  handleOnReset={handleOnReset}
+                  handleOnDelete={handleOnDelete}
+                  handleNewName={handleNewName}
+                  handleNewTime={handleNewTime}
+                  autoSaveTime={autoSaveTime}
+                />
+              </div>
+            ))}
+          </div>
+        }
+        <button className="button" onClick={handleAddStopwatchModal}>Add StopWatch</button>
+        {addStopwatch && <AddStopWatch onAddStopWatch={addStopWatchHandler} closeModal={closeModal}/>}
+        <button className="button delete-all-button" onClick={handleDeleteAll}>Delete All</button> 
+        {deleteAllAlert && <DeleteAllModal deleteAll={deleteAll} closeModal={closeModal}/>}
+      </div>
+    </>
   );
 }
 

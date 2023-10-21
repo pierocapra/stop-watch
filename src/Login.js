@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useAuth } from './Auth';
+import Header from './components/Header';
 
 // COMPONENTS
 import Spinner from './components/Spinner';
@@ -33,6 +34,7 @@ function Login() {
 
     return (
       <>
+        <Header />
         {loading && <Spinner />}
         <div className="container">
             <div className="auth">
@@ -49,6 +51,7 @@ function Login() {
                 <div className="additional-form-text">
                     Need an account? <Link to="/signup">Sign Up</Link>
                 </div>
+                <Link to="/test-page" className="additional-form-text test-link"><h3>Test the app</h3></Link>
             </div>
         </div>
       </>
