@@ -52,12 +52,14 @@ const Stopwatch = (props) => {
     setElapsedTime(0);
     setIsRunning(false);
     localStorage.removeItem(`stopwatch-${props.id}-startTime`);
+    localStorage.removeItem(`stopwatch-${props.id}-elapsedTime`);
     props.handleOnReset(props.id)
   };
 
   const handleDelete = () => {
     props.handleOnDelete(props.id)
     localStorage.removeItem(`stopwatch-${props.id}-startTime`);
+    localStorage.removeItem(`stopwatch-${props.id}-elapsedTime`);
   };
 
   const handleEditName = () => {

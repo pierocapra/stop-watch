@@ -251,6 +251,7 @@ function Main() {
       //clear LocalStorage
       stopwatches.forEach(stopwatch => {
         localStorage.removeItem(`stopwatch-${stopwatch.id}-startTime`);
+        localStorage.removeItem(`stopwatch-${stopwatch.id}-elapsedTime`);
       })
 
       setStopwatches([]);
