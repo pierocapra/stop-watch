@@ -42,6 +42,7 @@ const Stopwatch = (props) => {
   const handlePause = () => {
     if (isRunning) {
       localStorage.setItem(`stopwatch-${props.id}-startTime`, startTime);
+      localStorage.setItem(`stopwatch-${props.id}-elapsedTime`, elapsedTime);
       setIsRunning(false);
       props.handleOnPause(props.id, elapsedTime)
     }

@@ -61,40 +61,8 @@ function TestPage() {
   }
 
   const handleNewTime = async (id, amountToAdd) => {
-    // // Add or subtract minutes from current in steps of 5
-    // const amountInMs = amountToAdd * 60000;
-
-    // try {
-    //   const response = await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`)
-      
-    //   const data = await response.json();
-    //   const existingTime = data.time;
-    //   const updatedTime = existingTime + amountInMs;
-      
-    //   // Upload result to db
-    //   await fetch(`https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/${id}.json`,{
-    //     method:'PATCH',
-    //     body: JSON.stringify({ time: updatedTime }),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   });
-      
-    //   if (!response.ok) {
-    //     throw new Error('Something went wrong!');
-    //   } else {
-    //     // Reset content of current array
-       
-    //   }    
-    // } catch (error) {
-    //   setError(error.message);
-    // }
-
     const amountInMs = amountToAdd * 60000; 
-    const existingTime = localStorage.getItem(`stopwatch-${id}-startTime`);
-
-    console.log(existingTime);
-
+    const existingTime = Number(localStorage.getItem(`stopwatch-${id}-elapsedTime`));
     const updatedTime = existingTime + amountInMs;
 
     const updatedStopwatches = stopwatches.map(stopwatch => {
@@ -107,6 +75,7 @@ function TestPage() {
       return stopwatch;
     })
     setStopwatches(updatedStopwatches);
+    localStorage.setItem(`stopwatch-${id}-elapsedTime`, updatedTime)
   }
 
   const handleAddStopwatchModal = () => {
@@ -126,6 +95,7 @@ function TestPage() {
     //clear LocalStorage
     stopwatches.forEach(stopwatch => {
       localStorage.removeItem(`stopwatch-${stopwatch.id}-startTime`);
+      localStorage.removeItem(`stopwatch-${stopwatch.id}-elapsedTime`);
     })
 
     setStopwatches([]);
