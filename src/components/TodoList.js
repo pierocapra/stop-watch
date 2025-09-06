@@ -6,6 +6,11 @@ function TodoList() {
   const [newTodo, setNewTodo] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isAddFormExpanded, setIsAddFormExpanded] = useState(false);
+  const [draggedItem, setDraggedItem] = useState(null);
+  const [draggedOver, setDraggedOver] = useState(null);
+  const [editingTodo, setEditingTodo] = useState(null);
+  const [editingText, setEditingText] = useState('');
   const { currentUser } = useAuth();
 
   // Fetch todos from Firebase
@@ -79,6 +84,7 @@ function TodoList() {
       }
 
       setNewTodo('');
+      setIsAddFormExpanded(false);
       fetchTodos();
     } catch (error) {
       setError(error.message);
@@ -133,28 +139,136 @@ function TodoList() {
     }
   };
 
+  // Drag and Drop handlers
+  const handleDragStart = (e, todo) => {
+    setDraggedItem(todo);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e, todoId) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDraggedOver(todoId);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setDraggedOver(null);
+  };
+
+  const handleDrop = (e, dropTodo) => {
+    e.preventDefault();
+
+    if (!draggedItem || draggedItem.id === dropTodo.id) {
+      setDraggedItem(null);
+      setDraggedOver(null);
+      return;
+    }
+
+    const draggedIndex = todos.findIndex((todo) => todo.id === draggedItem.id);
+    const droppedIndex = todos.findIndex((todo) => todo.id === dropTodo.id);
+
+    const newTodos = [...todos];
+    const draggedTodo = newTodos.splice(draggedIndex, 1)[0];
+    newTodos.splice(droppedIndex, 0, draggedTodo);
+
+    setTodos(newTodos);
+    setDraggedItem(null);
+    setDraggedOver(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItem(null);
+    setDraggedOver(null);
+  };
+
+  // Edit handlers
+  const startEditing = (todo) => {
+    setEditingTodo(todo.id);
+    setEditingText(todo.text);
+  };
+
+  const cancelEditing = () => {
+    setEditingTodo(null);
+    setEditingText('');
+  };
+
+  const saveEdit = async () => {
+    if (!editingText.trim() || !editingTodo) return;
+
+    try {
+      const response = await fetch(
+        `https://stopwatch-7c6c4-default-rtdb.europe-west1.firebasedatabase.app/stopwatch/${currentUser.uid}/todos/${editingTodo}.json`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify({ text: editingText.trim() }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+      setTodos(
+        todos.map((todo) =>
+          todo.id === editingTodo ? { ...todo, text: editingText.trim() } : todo
+        )
+      );
+      cancelEditing();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleEditKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      saveEdit();
+    } else if (e.key === 'Escape') {
+      cancelEditing();
+    }
+  };
+
   return (
     <div className="todo-section">
-      <h2>Todo List</h2>
-
-      <form onSubmit={addTodo} className="todo-form">
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add a new task..."
-          className="todo-input"
-        />
-        <button type="submit" className="button todo-add-button">
-          Add Task
+      <div className="todo-header">
+        <h2>Todo List</h2>
+        <button
+          onClick={() => setIsAddFormExpanded(!isAddFormExpanded)}
+          className="button todo-toggle-button"
+          title={
+            isAddFormExpanded ? 'Hide add task form' : 'Show add task form'
+          }
+        >
+          {isAddFormExpanded ? '−' : '+'}
         </button>
-      </form>
+      </div>
+
+      {isAddFormExpanded && (
+        <form onSubmit={addTodo} className="todo-form">
+          <input
+            type="text"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            placeholder="Add a new task..."
+            className="todo-input"
+          />
+          <button type="submit" className="button todo-add-button">
+            Add Task
+          </button>
+        </form>
+      )}
 
       {isLoading && <p>Loading todos...</p>}
       {error && <p className="error-message">Error loading todos</p>}
 
       {todos.length === 0 && !isLoading && (
-        <p className="no-todos">No tasks yet. Add one above!</p>
+        <p className="no-todos">
+          No tasks yet.{' '}
+          {isAddFormExpanded ? 'Add one above!' : 'Click + to add one!'}
+        </p>
       )}
 
       {todos.length > 0 && (
@@ -162,8 +276,32 @@ function TodoList() {
           {todos.map((todo) => (
             <li
               key={todo.id}
-              className={`todo-item ${todo.completed ? 'completed' : ''}`}
+              className={`todo-item ${todo.completed ? 'completed' : ''} ${
+                draggedItem?.id === todo.id ? 'dragging' : ''
+              } ${draggedOver === todo.id ? 'drag-over' : ''}`}
+              draggable="true"
+              onDragStart={(e) => handleDragStart(e, todo)}
+              onDragOver={(e) => handleDragOver(e, todo.id)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, todo)}
+              onDragEnd={handleDragEnd}
             >
+              <div className="drag-handle" title="Drag to reorder">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
               <div className="todo-content">
                 <input
                   type="checkbox"
@@ -171,13 +309,47 @@ function TodoList() {
                   onChange={() => toggleTodo(todo.id, todo.completed)}
                   className="todo-checkbox"
                 />
-                <span className="todo-text">{todo.text}</span>
+                {editingTodo === todo.id ? (
+                  <input
+                    type="text"
+                    value={editingText}
+                    onChange={(e) => setEditingText(e.target.value)}
+                    onBlur={saveEdit}
+                    onKeyDown={handleEditKeyPress}
+                    className="todo-edit-input"
+                    autoFocus
+                  />
+                ) : (
+                  <span
+                    className="todo-text"
+                    onDoubleClick={() => startEditing(todo)}
+                    title="Double-click to edit"
+                  >
+                    {todo.text}
+                  </span>
+                )}
               </div>
               <button
                 onClick={() => deleteTodo(todo.id)}
                 className="button remove-button todo-delete-button"
+                title="Delete task"
               >
-                Delete
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <polyline points="3,6 5,6 21,6"></polyline>
+                  <path d="M19,6v14a2,2 0,0 1-2,2H7a2,2 0,0 1-2-2V6m3,0V4a2,2 0,0 1,2-2h4a2,2 0,0 1,2,2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
               </button>
             </li>
           ))}
