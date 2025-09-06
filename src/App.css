@@ -6,6 +6,27 @@ html {
   background-color: #fff;
   line-height: 1;
   text-align: left;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  grid-template-areas:
+    "header"
+    "main";
+  gap: 0;
 }
 
 * {
@@ -15,12 +36,22 @@ html {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
+  grid-area: main;
+  display: grid;
+  grid-template-rows: auto minmax(200px, 1fr) minmax(120px, auto);
+  grid-template-areas:
+    "messages"
+    "stopwatches"
+    "todos";
   align-items: stretch;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: 0;
+  gap: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 h1 {
@@ -71,12 +102,22 @@ input[type="text"]:focus {
   align-self: center;
 }
 
+.stopwatch-buttons .button {
+  margin-top: 0;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
 .button:hover {
   background-color: #2a5c9c;
 }
 
 .delete-all-button {
-  margin-top: 24px;
+  margin-top: 12px;
+}
+
+.stopwatch-buttons .delete-all-button {
+  margin-top: 0;
 }
 
 .delete-all-button,
@@ -91,6 +132,40 @@ input[type="text"]:focus {
   transition: background-color 0.3s;
 }
 
+/* Messages area */
+.messages-area {
+  grid-area: messages;
+  text-align: center;
+  align-self: center;
+  min-height: 0;
+}
+
+.messages-area.has-messages {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Stopwatch section wrapper */
+.stopwatch-section {
+  grid-area: stopwatches;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  align-self: stretch;
+  justify-self: center;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: calc(100vh - 200px);
+  padding-right: 8px;
+  margin-top: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
 /* StopwatchList styles */
 .stopwatch-list {
   display: flex;
@@ -98,8 +173,40 @@ input[type="text"]:focus {
   align-items: stretch;
   gap: 16px;
   width: 100%;
-  max-width: 600px;
-  align-self: center;
+  margin-bottom: 1rem;
+}
+
+/* Stopwatch buttons section */
+.stopwatch-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e0e0e0;
+  margin-top: auto;
+  /* Push to bottom of scrollable area */
+}
+
+/* Custom scrollbar for stopwatch section */
+.stopwatch-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stopwatch-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.stopwatch-section::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.stopwatch-section::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .stopwatch-container {
@@ -400,6 +507,7 @@ input[type="text"]:focus {
 /* Header */
 
 .header {
+  grid-area: header;
   background-color: #205e78ea;
   color: #fff;
   width: 100%;
@@ -408,6 +516,9 @@ input[type="text"]:focus {
   padding: 1rem;
   flex-wrap: wrap;
   gap: 1rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .header-right {
@@ -499,15 +610,20 @@ input[type="text"]:focus {
 /* TODO LIST */
 
 .todo-section {
+  grid-area: todos;
   width: 100%;
   max-width: 600px;
-  margin-top: 3rem;
   padding: 10px;
   border: 2px solid #205e78;
   border-radius: 4px;
   background-color: #205e7810;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  align-self: center;
+  align-self: start;
+  justify-self: center;
+  max-height: 40vh;
+  min-height: 120px;
+  overflow-y: auto;
+  margin-top: 1rem;
 }
 
 .todo-header {
@@ -598,6 +714,26 @@ input[type="text"]:focus {
   list-style: none;
   padding: 0;
   margin: 0;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.todo-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.todo-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.todo-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .todo-item {
@@ -767,11 +903,24 @@ input[type="text"]:focus {
   margin: 0.5rem 0;
 }
 
-/* Responsive design for todo section */
+/* Responsive design */
 @media only screen and (max-width: 600px) {
+  .container {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    grid-template-rows: auto minmax(150px, 1fr) minmax(100px, auto);
+  }
+
+  .stopwatch-section {
+    max-height: calc(100vh - 160px);
+    margin-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
   .todo-section {
-    margin: 2rem 1rem 0;
-    padding: 10px;
+    margin: 0.5rem;
+    max-height: 30vh;
+    min-height: 100px;
+    margin-top: 0.5rem;
   }
 
   .todo-form {
@@ -812,4 +961,21 @@ input[type="text"]:focus {
     width: 14px;
     height: 14px;
   }
+
+  .stopwatch-buttons {
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+
+  .stopwatch-buttons .button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
+
+/* @media only screen and (max-width: 380px) {
+  .stopwatch-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+} */

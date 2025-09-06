@@ -288,59 +288,75 @@ function Main() {
   };
 
   return (
-    <>
+    <div className="app">
       <Header />
       <div className="container">
-        {isLoading && <p>Loading...</p>}
-        {!isLoading && error && <p>Something got wrong</p>}
-        {!isLoading && stopwatches.length === 0 && (
-          <p>Create your first Stopwatch!</p>
-        )}
-        {!isLoading && stopwatches.length >= 1 && (
-          <div className="stopwatch-list">
-            {stopwatches.map((stopwatch) => (
-              <div
-                className="stopwatch-container"
-                key={stopwatch.id}
-                style={{ border: `2px solid ${stopwatch.color}` }}
+        <div
+          className={`messages-area ${
+            isLoading || error || stopwatches.length === 0 ? 'has-messages' : ''
+          }`}
+        >
+          {isLoading && <p>Loading...</p>}
+          {!isLoading && error && <p>Something got wrong</p>}
+          {!isLoading && stopwatches.length === 0 && (
+            <p>Create your first Stopwatch!</p>
+          )}
+        </div>
+        <div className="stopwatch-section">
+          {!isLoading && stopwatches.length >= 1 && (
+            <div className="stopwatch-list">
+              {stopwatches.map((stopwatch) => (
+                <div
+                  className="stopwatch-container"
+                  key={stopwatch.id}
+                  style={{ border: `2px solid ${stopwatch.color}` }}
+                >
+                  <Stopwatch
+                    id={stopwatch.id}
+                    name={stopwatch.name}
+                    date={stopwatch.date}
+                    time={stopwatch.time}
+                    color={stopwatch.color}
+                    handleOnPause={handleOnPause}
+                    handleOnReset={handleOnReset}
+                    handleOnDelete={handleOnDelete}
+                    handleNewName={handleNewName}
+                    handleNewTime={handleNewTime}
+                    autoSaveTime={autoSaveTime}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="stopwatch-buttons">
+            <button className="button" onClick={handleAddStopwatchModal}>
+              Add StopWatch
+            </button>
+            {stopwatches.length >= 1 && (
+              <button
+                className="button delete-all-button"
+                onClick={handleDeleteAll}
               >
-                <Stopwatch
-                  id={stopwatch.id}
-                  name={stopwatch.name}
-                  date={stopwatch.date}
-                  time={stopwatch.time}
-                  color={stopwatch.color}
-                  handleOnPause={handleOnPause}
-                  handleOnReset={handleOnReset}
-                  handleOnDelete={handleOnDelete}
-                  handleNewName={handleNewName}
-                  handleNewTime={handleNewTime}
-                  autoSaveTime={autoSaveTime}
-                />
-              </div>
-            ))}
+                Delete All
+              </button>
+            )}
           </div>
-        )}
-        <button className="button" onClick={handleAddStopwatchModal}>
-          Add StopWatch
-        </button>
+        </div>
+
         {addStopwatch && (
           <AddStopWatch
             onAddStopWatch={addStopWatchHandler}
             closeModal={closeModal}
           />
         )}
-        <button className="button delete-all-button" onClick={handleDeleteAll}>
-          Delete All
-        </button>
         {deleteAllAlert && (
           <DeleteAllModal deleteAll={deleteAll} closeModal={closeModal} />
         )}
 
-        {/* Todo List Section */}
         <TodoList />
       </div>
-    </>
+    </div>
   );
 }
 
