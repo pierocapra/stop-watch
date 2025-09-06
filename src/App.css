@@ -620,7 +620,6 @@ input[type="text"]:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   align-self: start;
   justify-self: center;
-  max-height: 40vh;
   min-height: 120px;
   overflow-y: auto;
   margin-top: 1rem;
@@ -714,7 +713,6 @@ input[type="text"]:focus {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 30vh;
   overflow-y: auto;
 }
 
@@ -918,7 +916,6 @@ input[type="text"]:focus {
 
   .todo-section {
     margin: 0.5rem;
-    max-height: 30vh;
     min-height: 100px;
     margin-top: 0.5rem;
   }
