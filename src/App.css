@@ -1147,6 +1147,211 @@ input[type="text"]:focus {
   transform: scale(1.05);
 }
 
+/* Todo actions container */
+.todo-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Todo notes button */
+.todo-notes-button {
+  margin-top: 0 !important;
+  padding: 4px 6px;
+  min-width: 30px;
+  width: 30px;
+  height: 26px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2196f3 !important;
+  color: #fff;
+  pointer-events: auto;
+  position: relative;
+}
+
+.todo-notes-button svg {
+  width: 14px;
+  height: 14px;
+  color: inherit;
+}
+
+.todo-notes-button:hover {
+  background-color: #1976d2 !important;
+  transform: scale(1.05);
+}
+
+.notes-indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: #ff9800;
+  border-radius: 50%;
+  font-size: 6px;
+  color: #ff9800;
+  border: 1px solid #fff;
+}
+
+/* Notes Modal */
+.notes-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.notes-modal {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.notes-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  flex-shrink: 0;
+}
+
+.notes-modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  flex: 1;
+  margin-right: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notes-close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.notes-close-button:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.notes-modal-body {
+  padding: 12px 16px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-textarea {
+  width: 100%;
+  flex: 1;
+  min-height: 200px;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.notes-textarea:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.notes-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  border-radius: 0 0 8px 8px;
+  flex-shrink: 0;
+}
+
+.notes-cancel-button {
+  background-color: #6c757d !important;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.notes-cancel-button:hover {
+  background-color: #5a6268 !important;
+}
+
+.notes-save-button {
+  background-color: #2196f3 !important;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.notes-save-button:hover {
+  background-color: #1976d2 !important;
+}
+
 .no-todos {
   text-align: center;
   color: #888;
@@ -1252,6 +1457,57 @@ input[type="text"]:focus {
   .todo-delete-button svg {
     width: 12px;
     height: 12px;
+  }
+
+  .todo-actions {
+    gap: 4px;
+  }
+
+  .todo-notes-button {
+    min-width: 28px;
+    width: 28px;
+    height: 24px;
+    padding: 3px 5px;
+  }
+
+  .todo-notes-button svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .notes-indicator {
+    width: 6px;
+    height: 6px;
+    top: -1px;
+    right: -1px;
+  }
+
+  .notes-modal {
+    width: 95%;
+    max-height: 92vh;
+    height: 75vh;
+  }
+
+  .notes-modal-header {
+    padding: 8px 12px;
+  }
+
+  .notes-modal-header h3 {
+    font-size: 15px;
+  }
+
+  .notes-modal-body {
+    padding: 8px 12px;
+  }
+
+  .notes-textarea {
+    min-height: 150px;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .notes-modal-footer {
+    padding: 8px 12px;
   }
 
   .stopwatch-buttons {
