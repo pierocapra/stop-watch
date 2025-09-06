@@ -551,7 +551,19 @@ function Main() {
               ))}
             </div>
           )}
+        </div>
 
+        {addStopwatch && (
+          <AddStopWatch
+            onAddStopWatch={addStopWatchHandler}
+            closeModal={closeModal}
+          />
+        )}
+        {deleteAllAlert && (
+          <DeleteAllModal deleteAll={deleteAll} closeModal={closeModal} />
+        )}
+
+        <div className="todo-section-with-buttons">
           <div className="stopwatch-buttons">
             <button className="button" onClick={handleAddStopwatchModal}>
               Add StopWatch
@@ -565,19 +577,8 @@ function Main() {
               </button>
             )}
           </div>
+          <TodoList />
         </div>
-
-        {addStopwatch && (
-          <AddStopWatch
-            onAddStopWatch={addStopWatchHandler}
-            closeModal={closeModal}
-          />
-        )}
-        {deleteAllAlert && (
-          <DeleteAllModal deleteAll={deleteAll} closeModal={closeModal} />
-        )}
-
-        <TodoList />
       </div>
     </div>
   );
