@@ -32,35 +32,12 @@ const Header = (props) => {
   }
 
   const handleResize = () => {
-    // Open a new window with mobile/compact size
+    // Try to resize the current window to mobile/compact size
     try {
-      const newWindow = window.open(
-        window.location.href,
-        '_blank',
-        'width=337,height=940,scrollbars=yes,resizable=yes'
-      );
-
-      if (newWindow) {
-        // Try to close the current window
-        window.close();
-
-        // If window.close() doesn't work (common in modern browsers for security),
-        // provide a helpful message
-        setTimeout(() => {
-          if (!window.closed) {
-            console.log(
-              'Original window could not be closed automatically. Please close this tab manually and use the new compact window.'
-            );
-          }
-        }, 100);
-      } else {
-        console.log(
-          'Pop-up blocked. Please allow pop-ups for this site or use F12 > Device Mode for mobile testing'
-        );
-      }
+      window.resizeTo(337, 940);
     } catch (error) {
       console.log(
-        'Could not open new window. Use F12 > Device Mode for mobile testing'
+        'Window resize blocked by browser. Use F12 > Device Mode for mobile testing'
       );
     }
   };
