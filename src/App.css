@@ -538,6 +538,20 @@ input[type="text"]:focus {
 
 .header-left {
   line-height: initial;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-left h3 {
+  margin: 0;
+  line-height: 1;
+  margin-top: 3.5px;
+}
+
+.header-icon {
+  flex-shrink: 0;
+  display: block;
 }
 
 .resize-button {
