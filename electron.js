@@ -18,7 +18,7 @@ function createWindow() {
       enableRemoteModule: false,
       webSecurity: true,
     },
-    icon: path.join(__dirname, 'assets/icon.png'), // Optional: add an app icon
+    icon: path.join(__dirname, 'assets/icon.png'), // Stopwatch app icon
     titleBarStyle: 'default',
     show: false, // Don't show until ready
   });
