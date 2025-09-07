@@ -32,13 +32,35 @@ const Header = (props) => {
   }
 
   const handleResize = () => {
-    // Try to resize the current window to mobile/compact size
+    // Open a new window with mobile/compact size
     try {
-      window.resizeTo(337, 940);
+      const newWindow = window.open(
+        window.location.href,
+        '_blank',
+        'width=337,height=940,scrollbars=yes,resizable=yes'
+      );
+
+      if (newWindow) {
+        // Try to close the current window
+        window.close();
+
+        // If window.close() doesn't work (common in modern browsers for security),
+        // provide a helpful message
+        setTimeout(() => {
+          if (!window.closed) {
+            console.log(
+              'Original window could not be closed automatically. Please close this tab manually and use the new compact window.'
+            );
+          }
+        }, 100);
+      } else {
+        console.log(
+          'Pop-up blocked. Please allow pop-ups for this site or use F12 > Device Mode for mobile testing'
+        );
+      }
     } catch (error) {
-      // If blocked, provide helpful console message
       console.log(
-        'Window resize blocked by browser. Use F12 > Device Mode for mobile testing'
+        'Could not open new window. Use F12 > Device Mode for mobile testing'
       );
     }
   };
