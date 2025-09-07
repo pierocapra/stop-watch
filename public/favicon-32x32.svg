@@ -1,0 +1,23 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <!-- Stopwatch button -->
+    <rect x="14" y="2" width="4" height="3" rx="1" fill="#4A5568" />
+
+    <!-- Main body -->
+    <circle cx="16" cy="18" r="12" fill="#E2E8F0" stroke="#4A5568" stroke-width="2" />
+    <circle cx="16" cy="18" r="10" fill="#F7FAFC" />
+
+    <!-- Clock markers -->
+    <g stroke="#4A5568" stroke-width="1.5" stroke-linecap="round">
+        <line x1="16" y1="8" x2="16" y2="10" />
+        <line x1="26" y1="18" x2="24" y2="18" />
+        <line x1="16" y1="28" x2="16" y2="26" />
+        <line x1="6" y1="18" x2="8" y2="18" />
+    </g>
+
+    <!-- Hands -->
+    <line x1="16" y1="18" x2="16" y2="12" stroke="#E53E3E" stroke-width="1" />
+    <line x1="16" y1="18" x2="21" y2="15" stroke="#2D3748" stroke-width="1.5" />
+
+    <!-- Center -->
+    <circle cx="16" cy="18" r="1.5" fill="#4A5568" />
+</svg>
