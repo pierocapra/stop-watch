@@ -1,0 +1,47 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stopwatch button/crown -->
+  <rect x="44" y="8" width="12" height="8" rx="2" fill="#4A5568" stroke="#2D3748" stroke-width="1"/>
+  <rect x="47" y="4" width="6" height="6" rx="1" fill="#718096"/>
+  
+  <!-- Main stopwatch body -->
+  <circle cx="50" cy="55" r="38" fill="#E2E8F0" stroke="#4A5568" stroke-width="3"/>
+  <circle cx="50" cy="55" r="35" fill="#F7FAFC" stroke="#CBD5E0" stroke-width="1"/>
+  
+  <!-- Hour markers -->
+  <g stroke="#4A5568" stroke-width="2" stroke-linecap="round">
+    <!-- 12 o'clock -->
+    <line x1="50" y1="23" x2="50" y2="28" stroke-width="3"/>
+    <!-- 3 o'clock -->
+    <line x1="82" y1="55" x2="77" y2="55" stroke-width="3"/>
+    <!-- 6 o'clock -->
+    <line x1="50" y1="87" x2="50" y2="82" stroke-width="3"/>
+    <!-- 9 o'clock -->
+    <line x1="18" y1="55" x2="23" y2="55" stroke-width="3"/>
+  </g>
+  
+  <!-- Minute markers -->
+  <g stroke="#718096" stroke-width="1" stroke-linecap="round">
+    <!-- Top right -->
+    <line x1="73.5" y1="31.5" x2="71.5" y2="33.5"/>
+    <!-- Top left -->
+    <line x1="26.5" y1="31.5" x2="28.5" y2="33.5"/>
+    <!-- Bottom right -->
+    <line x1="73.5" y1="78.5" x2="71.5" y2="76.5"/>
+    <!-- Bottom left -->
+    <line x1="26.5" y1="78.5" x2="28.5" y2="76.5"/>
+  </g>
+  
+  <!-- Stopwatch hands -->
+  <!-- Second hand (thin, red) -->
+  <line x1="50" y1="55" x2="50" y2="30" stroke="#E53E3E" stroke-width="1" stroke-linecap="round"/>
+  <!-- Minute hand (medium, dark) -->
+  <line x1="50" y1="55" x2="65" y2="45" stroke="#2D3748" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Center dot -->
+  <circle cx="50" cy="55" r="3" fill="#4A5568"/>
+  <circle cx="50" cy="55" r="1.5" fill="#E2E8F0"/>
+  
+  <!-- Small reset button -->
+  <circle cx="65" cy="25" r="4" fill="#4299E1" stroke="#3182CE" stroke-width="1"/>
+  <polygon points="63,25 67,23 67,27" fill="white"/>
+</svg>
